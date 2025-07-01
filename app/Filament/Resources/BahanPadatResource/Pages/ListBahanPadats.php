@@ -13,7 +13,7 @@ class ListBahanPadats extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\Action::make('Export')
+            Actions\Action::make('export')
                 ->url(url('/export')),
             Actions\CreateAction::make(),
         ];
