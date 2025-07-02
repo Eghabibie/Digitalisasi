@@ -13,6 +13,13 @@ class ListBahanCairanLamas extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            // ... di dalam method getHeaderActions()
+
+Actions\Action::make('export')
+    ->label('Export ke Excel')
+    ->icon('heroicon-o-document-arrow-down')
+    // Arahkan ke URL yang baru
+    ->url('/export/bahan-cairan-lama'),
             Actions\CreateAction::make(),
         ];
     }
