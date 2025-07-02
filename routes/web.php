@@ -7,4 +7,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/export',[ExportController::class, 'export']);
+Route::get('/export/bahan-padat', [ExportController::class, 'exportBahanPadat']);
+Route::get('/export/bahan-cairan-lama', [ExportController::class, 'exportBahanCairanLama']);
