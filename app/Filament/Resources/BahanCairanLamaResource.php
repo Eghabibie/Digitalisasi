@@ -23,6 +23,7 @@ class BahanCairanLamaResource extends Resource
 
     protected static ?string $navigationLabel = 'Bahan Cair';
     protected static ?string $slug = 'Bahan_Cair';
+    protected static ?int $navigationSort = 3;
 
     public function panel(Panel $panel): Panel
 {

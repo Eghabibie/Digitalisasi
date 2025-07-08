@@ -22,6 +22,7 @@ class AlatResource extends Resource
     protected static ?string $model = Alat::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
@@ -32,14 +33,16 @@ class AlatResource extends Resource
                     ->label('Nama Alat')
                     ->placeholder("Masukan Nama Alat...."),
                 FileUpload::make('images')
-                    ->label('Gambar')
-                    ->image()
-                    ->imageEditor()
-                    ->imageEditorAspectRatios([
-                        '16:9',
-                        '4:3',
-                        '1:1',
-                      ]),
+    ->label('Gambar')
+    ->image()
+    ->disk('public') // ✅ TAMBAHKAN INI: Simpan ke disk 'public'
+    ->directory('alat-images') // ✅ TAMBAHKAN INI: Buat folder khusus untuk gambar alat
+    ->imageEditor()
+    ->imageEditorAspectRatios([
+        '16:9',
+        '4:3',
+        '1:1',
+    ]),
                 TextInput::make('volume')
                     ->required()
                     ->label('Volume')
@@ -72,7 +75,9 @@ class AlatResource extends Resource
                     ->sortable()
                     ->label('Nama Alat')
                     ->searchable(),
-                ImageColumn::make('images'),
+                ImageColumn::make('images')
+    ->disk('public') // ✅ TAMBAHKAN INI: Cari gambar di disk 'public'
+    ->label('Images'), // Anda bisa menambahkan label jika mau
                 TextColumn::make('volume')
                     ->searchable()
                     ->label('Volume'),

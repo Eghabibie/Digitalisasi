@@ -23,6 +23,7 @@ class BahanPadatResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-cube-transparent';
     protected static ?string $navigationLabel = 'Bahan Padat';
     protected static ?string $slug = 'Bahan_Padat';
+    protected static ?int $navigationSort = 2;
 
     public static ?string $label = 'Bahan Padat' ;
     public static function form(Form $form): Form
