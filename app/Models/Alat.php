@@ -9,4 +9,8 @@ class Alat extends Model
     protected $table = 'alats';
     protected $fillable = ['nama','volume','kondisi','jumlah','merek','tahun_pengadaan','images'];
     protected $guarded = [];
+    public function peminjamans()
+{
+    return $this->morphMany(Peminjaman::class, 'peminjamable');
+}
 }

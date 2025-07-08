@@ -32,9 +32,11 @@ class AdminPanelProvider extends PanelProvider
             // ->brandLogo(asset('images/UIn2.png'))
             //  ->brandLogoHeight('10rem')
             ->brandName('Prodi Kimia')
+            ->sidebarFullyCollapsibleOnDesktop()
             ->colors([
-                'primary' => Color::Emerald,
+                'primary' => Color::Lime,
             ])
+            //  ->topNavigation()
             ->font('Nunito')
             ->darkmode(true) //Matikan Darkmode
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
