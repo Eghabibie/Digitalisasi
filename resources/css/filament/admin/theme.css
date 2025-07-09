@@ -1,0 +1,27 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+@import '../../../../vendor/filament/filament/resources/css/base.css';
+@import '/vendor/filament/filament/resources/css/theme.css';
+@import '/public/css/filament/admin/theme.css';
+
+
+@config 'tailwind.config.js';
+
+.fi-topbar > nav {
+    background-color: #0e847a !important;
+    color: white !important;
+    box-shadow: none !important;
+}
+
+.fi-sidebar-header {
+    background-color: #0e847a !important;
+    color: white !important;
+    box-shadow: none !important;
+}
+
+.fi-logo {
+    color: white !important;
+}

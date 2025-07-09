@@ -27,6 +27,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->theme(asset('css/filament/admin/theme.css'))
             ->brandLogoHeight('3rem')
             ->favicon(asset('images/Uin.png'))
             // ->brandLogo(asset('images/UIn2.png'))
