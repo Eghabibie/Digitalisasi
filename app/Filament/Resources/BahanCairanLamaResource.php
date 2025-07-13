@@ -46,13 +46,13 @@ class BahanCairanLamaResource extends Resource
                     ->required()
                     ->label('Rumus Kimia')
                     ->placeholder("Masukan Rumus Kimia...."),
-                TextInput::make('sisa_bahan')
+                TextInput::make('jumlah')
                     ->required()
-                    ->label('Sisa Bahan')
-                    ->placeholder("Masukan Sisa Bhan...."),
+                    ->label('Jumlah Bahan')
+                    ->placeholder("Masukan Jumlah Bahan...."),
                 TextInput::make('nomor_cas')
                     ->required()
-                    ->label('Nomor Cas')
+                    ->label('Nomor CAS')
                     ->placeholder("Masukan Nomor CAS...."),
                 TextInput::make('letak')
                     ->required()
@@ -88,14 +88,14 @@ class BahanCairanLamaResource extends Resource
                 TextColumn::make('rumus_kimia')
                     ->searchable()
                     ->label('Rumus Kimia'),
-                TextColumn::make('sisa_bahan')
+                TextColumn::make('jumlah')
                     ->searchable()
-                    ->label('Sisa Bahan'),
+                    ->label('Jumlah Bahan'),
                 TextColumn::make('nomor_cas')
                     ->copyable()
                     ->copyMessage('Teks Tersalin')
                     ->searchable()
-                    ->label('Nomor Cas'),
+                    ->label('Nomor CAS'),
                 TextColumn::make('letak')
                     ->searchable()
                     ->label('Letak'),
