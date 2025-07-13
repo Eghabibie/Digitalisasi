@@ -76,8 +76,8 @@ class AlatResource extends Resource
                     ->label('Nama Alat')
                     ->searchable(),
                 ImageColumn::make('images')
-    ->disk('public') // ✅ TAMBAHKAN INI: Cari gambar di disk 'public'
-    ->label('Images'), // Anda bisa menambahkan label jika mau
+                    ->disk('public')
+                    ->label('Images'), 
                 TextColumn::make('volume')
                     ->searchable()
                     ->label('Volume'),
@@ -93,6 +93,9 @@ class AlatResource extends Resource
                  TextColumn::make('tahun_pengadaan')
                     ->searchable()
                     ->label('Tahun Pengadaan'),
+                 TextColumn::make('stok')
+                    ->searchable()
+                    ->label('Stock'),
             ])
             ->filters([
                 //

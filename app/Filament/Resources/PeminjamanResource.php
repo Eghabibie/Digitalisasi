@@ -61,6 +61,35 @@ public static function table(Table $table): Table
                 ->color('danger')->icon('heroicon-o-x-circle')
                 ->action(fn (Peminjaman $record) => $record->update(['status' => 'Ditolak']))
                 ->visible(fn (Peminjaman $record): bool => $record->status === 'Menunggu Persetujuan'),
+
+            Action::make('kembalikan')
+                ->label('Tandai Kembali')
+                ->color('info') // Warna tombol bisa diubah
+                ->icon('heroicon-o-archive-box')
+                ->action(function (Peminjaman $record) {
+                    // Ambil item yang direlasikan (Alat, BahanPadat, dll.)
+                    $item = $record->peminjamable;
+                    
+                    // Ambil jumlah yang dipinjam dari catatan peminjaman
+                    $jumlah_kembali = $record->jumlah;
+
+                    // Cek tipe barang untuk menentukan kolom stok mana yang akan ditambah
+                    if ($record->peminjamable_type === 'App\\Models\\Alat') {
+                        $item->increment('stok', $jumlah_kembali);
+                    } else {
+                        // Ini berlaku untuk BahanPadat dan BahanCairanLama
+                        $item->increment('jumlah', $jumlah_kembali);
+                    }
+
+                    // Update status peminjaman menjadi 'Dikembalikan'
+                    $record->update([
+                        'status' => 'Dikembalikan',
+                        'tanggal_kembali' => now()
+                    ]);
+                })
+                // Tombol ini hanya akan muncul jika statusnya 'Disetujui' (sedang dipinjam)
+                ->visible(fn (Peminjaman $record): bool => $record->status === 'Disetujui'),
+
         ]);
     }
 
