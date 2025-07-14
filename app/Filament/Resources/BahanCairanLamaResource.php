@@ -46,6 +46,9 @@ class BahanCairanLamaResource extends Resource
                     ->required()
                     ->label('Rumus Kimia')
                     ->placeholder("Masukan Rumus Kimia...."),
+                TextInput::make('unit')
+                ->label('Satuan (g, mL, dll)')
+                ->required(),
                 TextInput::make('jumlah')
                     ->required()
                     ->label('Jumlah Bahan')
