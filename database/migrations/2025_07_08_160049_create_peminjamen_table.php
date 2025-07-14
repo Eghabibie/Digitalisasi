@@ -15,9 +15,9 @@ return new class extends Migration
         $table->id();
         $table->string('nama_peminjam');
         $table->string('nim_peminjam');
-        $table->morphs('peminjamable'); // Kolom ajaib untuk ID & Tipe Barang
+        $table->morphs('peminjamable');
         $table->integer('jumlah')->default(1);
-        $table->date('tanggal_pinjam')->nullable(); // Diisi saat disetujui
+        $table->date('tanggal_pinjam')->nullable();
         $table->date('tanggal_kembali')->nullable();
         $table->enum('status', [
             'Menunggu Persetujuan',

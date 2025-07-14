@@ -45,6 +45,11 @@
         </div>
         
         <div>
+            <label for="no_hp">Nomor HP Aktif:</label>
+            <input type="tel" id="no_hp" name="no_hp" value="{{ old('no_hp') }}" required>
+        </div>
+        
+        <div>
             <label for="item_selection">Pilih Barang:</label>
             <select name="item_selection" id="item_selection" required>
                 <option value="">-- Pilih Barang --</option>
