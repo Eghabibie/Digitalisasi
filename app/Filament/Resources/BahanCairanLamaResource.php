@@ -89,8 +89,12 @@ class BahanCairanLamaResource extends Resource
                     ->searchable()
                     ->label('Rumus Kimia'),
                 TextColumn::make('jumlah')
-                    ->searchable()
-                    ->label('Jumlah Bahan'),
+                    ->label('Stok Tersedia')
+                    ->formatStateUsing(fn ($state, $record) => "{$state} {$record->unit}")
+                    ->sortable()
+                    ->searchable(query: function ($query, $search) {
+                    return $query->where('jumlah', 'like', "%{$search}%");
+                    }),
                 TextColumn::make('nomor_cas')
                     ->copyable()
                     ->copyMessage('Teks Tersalin')

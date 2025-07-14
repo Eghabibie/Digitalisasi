@@ -12,10 +12,7 @@ return new class extends Migration
 public function up(): void
 {
     Schema::table('bahan_cairan_lamas', function (Blueprint $table) {
-        // Ubah kolom sisa_bahan menjadi tipe desimal
         $table->decimal('sisa_bahan', 8, 2)->change();
-
-        // Tambahkan kolom unit setelah kolom sisa_bahan
         $table->string('unit', 20)->nullable()->after('sisa_bahan');
     });
 }
@@ -23,9 +20,7 @@ public function up(): void
 public function down(): void
 {
     Schema::table('bahan_cairan_lamas', function (Blueprint $table) {
-        // Kembalikan tipe data sisa_bahan jika migrasi di-rollback
         $table->string('sisa_bahan')->change();
-        // Hapus kolom unit
         $table->dropColumn('unit');
     });
 }

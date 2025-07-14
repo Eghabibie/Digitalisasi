@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('alats', function (Blueprint $table) {
-            // Tambahkan kolom 'stok' tipe integer, dengan nilai default 0, setelah kolom 'jumlah'
             $table->integer('stok')->default(0)->after('jumlah');
         });
     }
@@ -23,7 +22,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('alats', function (Blueprint $table) {
-            // Hapus kolom 'stok' jika migrasi di-rollback
             $table->dropColumn('stok');
         });
     }

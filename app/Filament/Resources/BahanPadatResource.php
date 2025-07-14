@@ -36,8 +36,13 @@ class BahanPadatResource extends Resource
                     ->placeholder("Masukan Nama Cairan...."),
                 TextInput::make('rumus_kimia')
                     ->required()
+                    ->numeric()
+                    ->minValue(0)
                     ->label('Rumus Kimia')
                     ->placeholder("Masukan Rumus Kimia...."),
+                TextInput::make('unit')
+                ->label('Satuan (g, mL, dll)')
+                ->required(),
                 TextInput::make('jumlah')
                     ->required()
                     ->label('Jumlah')
@@ -81,8 +86,12 @@ class BahanPadatResource extends Resource
                     ->searchable()
                     ->label('Rumus Kimia'),
                 TextColumn::make('jumlah')
-                    ->searchable()
-                    ->label('Jumalah Bahan'),
+                    ->label('Stok Tersedia')
+                    ->formatStateUsing(fn ($state, $record) => "{$state} {$record->unit}")
+                    ->sortable()
+                    ->searchable(query: function ($query, $search) {
+                        return $query->where('jumlah', 'like', "%{$search}%");
+                    }),
                 TextColumn::make('nomor_cas')
                     ->copyable()
                     ->copyMessage('Teks Tersalin')

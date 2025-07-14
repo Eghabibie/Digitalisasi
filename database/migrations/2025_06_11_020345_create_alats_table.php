@@ -20,8 +20,6 @@ return new class extends Migration
             $table->string('merek', 100)->nullable();
             $table->string('tahun_pengadaan', 50)->nullable();
             $table->timestamps();
-//             nama alat
-// nama, (modal image), volume kondisi jumlah merek tahun pengadaan
         });
     }
 

@@ -12,13 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bahan_padats', function (Blueprint $table) {
-            // Langkah 1: Hapus kolom sisa_bahan jika ada
             if (Schema::hasColumn('bahan_padats', 'sisa_bahan')) {
                 $table->dropColumn('sisa_bahan');
             }
-
-            // Langkah 2: Ubah posisi kolom 'jumlah' dan 'unit'
-            // Pastikan tipe datanya sudah benar (decimal untuk jumlah)
             $table->decimal('jumlah', 8, 2)->after('rumus_kimia')->change();
             $table->string('unit', 20)->nullable()->after('jumlah')->change();
         });
@@ -30,7 +26,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('bahan_padats', function (Blueprint $table) {
-            // Logika untuk mengembalikan jika migrasi di-rollback (opsional tapi baik)
             $table->decimal('sisa_bahan', 8, 2)->nullable();
             $table->decimal('jumlah', 8, 2)->after('updated_at')->change();
             $table->string('unit', 20)->nullable()->after('jumlah')->change();

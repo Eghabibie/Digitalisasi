@@ -19,7 +19,13 @@ class PeminjamanResource extends Resource
 {
     protected static ?string $model = Peminjaman::class;
     protected static ?string $navigationGroup = 'Action Peminjaman';
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-folder-open';
+
+     public static function getNavigationBadge(): ?string
+    {
+        $count = static::getModel()::where('status', 'Menunggu Persetujuan')->count();
+        return $count > 0 ? $count : null;
+    }
 
     public static function form(Form $form): Form
     {
@@ -35,7 +41,17 @@ public static function table(Table $table): Table
         ->columns([
             TextColumn::make('nama_peminjam')->searchable(),
             TextColumn::make('nim_peminjam')->searchable(),
+            TextColumn::make('no_hp')->label('No. HP')->searchable(),
             TextColumn::make('peminjamable.nama')->label('Barang Dipinjam'),
+            TextColumn::make('jumlah')
+                ->label('Jumlah Dipinjam')
+                ->formatStateUsing(function ($state, $record) {
+                    if ($record->peminjamable_type !== 'App\\Models\\Alat') {
+                        return $state . ' ' . $record->peminjamable->unit;
+                    }
+                    return $state;
+                }),
+
             TextColumn::make('status')->badge()->color(fn (string $state): string => match ($state) {
                 'Menunggu Persetujuan' => 'gray',
                 'Disetujui' => 'warning',
@@ -64,31 +80,24 @@ public static function table(Table $table): Table
 
             Action::make('kembalikan')
                 ->label('Tandai Kembali')
-                ->color('info') // Warna tombol bisa diubah
+                ->color('info')
                 ->icon('heroicon-o-archive-box')
                 ->action(function (Peminjaman $record) {
-                    // Ambil item yang direlasikan (Alat, BahanPadat, dll.)
+               
                     $item = $record->peminjamable;
-                    
-                    // Ambil jumlah yang dipinjam dari catatan peminjaman
                     $jumlah_kembali = $record->jumlah;
-
-                    // Cek tipe barang untuk menentukan kolom stok mana yang akan ditambah
                     if ($record->peminjamable_type === 'App\\Models\\Alat') {
                         $item->increment('stok', $jumlah_kembali);
                     } else {
-                        // Ini berlaku untuk BahanPadat dan BahanCairanLama
                         $item->increment('jumlah', $jumlah_kembali);
                     }
-
-                    // Update status peminjaman menjadi 'Dikembalikan'
                     $record->update([
                         'status' => 'Dikembalikan',
                         'tanggal_kembali' => now()
                     ]);
                 })
-                // Tombol ini hanya akan muncul jika statusnya 'Disetujui' (sedang dipinjam)
                 ->visible(fn (Peminjaman $record): bool => $record->status === 'Disetujui'),
+                
 
         ]);
     }
