@@ -36,8 +36,8 @@ class PeminjamanResource extends Resource
     }
 
 public static function table(Table $table): Table
-    {
-        return $table
+{
+    return $table
         ->columns([
             TextColumn::make('nama_peminjam')->searchable(),
             TextColumn::make('nim_peminjam')->searchable(),
@@ -51,7 +51,6 @@ public static function table(Table $table): Table
                     }
                     return $state;
                 }),
-
             TextColumn::make('status')->badge()->color(fn (string $state): string => match ($state) {
                 'Menunggu Persetujuan' => 'gray',
                 'Disetujui' => 'warning',
@@ -65,25 +64,29 @@ public static function table(Table $table): Table
                 ->label('Setujui')
                 ->color('success')->icon('heroicon-o-check-circle')
                 ->action(function (Peminjaman $record) {
-                    $record->update([
-                        'status' => 'Disetujui',
-                        'tanggal_pinjam' => now()
-                    ]);
+                    $record->update(['status' => 'Disetujui', 'tanggal_pinjam' => now()]);
                 })
                 ->visible(fn (Peminjaman $record): bool => $record->status === 'Menunggu Persetujuan'),
-
             Action::make('tolak')
                 ->label('Tolak')
                 ->color('danger')->icon('heroicon-o-x-circle')
-                ->action(fn (Peminjaman $record) => $record->update(['status' => 'Ditolak']))
+                ->action(function (Peminjaman $record) {
+                    $item = $record->peminjamable;
+                    $jumlah_batal = $record->jumlah;
+                    if ($record->peminjamable_type === 'App\\Models\\Alat') {
+                        $item->increment('stok', $jumlah_batal);
+                    } else {
+                        $item->increment('jumlah', $jumlah_batal);
+                    }
+                    
+                    $record->update(['status' => 'Ditolak']);
+                })
                 ->visible(fn (Peminjaman $record): bool => $record->status === 'Menunggu Persetujuan'),
 
             Action::make('kembalikan')
                 ->label('Tandai Kembali')
-                ->color('info')
-                ->icon('heroicon-o-archive-box')
+                ->color('info')->icon('heroicon-o-archive-box')
                 ->action(function (Peminjaman $record) {
-               
                     $item = $record->peminjamable;
                     $jumlah_kembali = $record->jumlah;
                     if ($record->peminjamable_type === 'App\\Models\\Alat') {
@@ -91,16 +94,12 @@ public static function table(Table $table): Table
                     } else {
                         $item->increment('jumlah', $jumlah_kembali);
                     }
-                    $record->update([
-                        'status' => 'Dikembalikan',
-                        'tanggal_kembali' => now()
-                    ]);
+
+                    $record->update(['status' => 'Dikembalikan', 'tanggal_kembali' => now()]);
                 })
                 ->visible(fn (Peminjaman $record): bool => $record->status === 'Disetujui'),
-                
-
         ]);
-    }
+}
 
     public static function getRelations(): array
     {

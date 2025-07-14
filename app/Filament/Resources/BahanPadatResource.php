@@ -36,8 +36,6 @@ class BahanPadatResource extends Resource
                     ->placeholder("Masukan Nama Cairan...."),
                 TextInput::make('rumus_kimia')
                     ->required()
-                    ->numeric()
-                    ->minValue(0)
                     ->label('Rumus Kimia')
                     ->placeholder("Masukan Rumus Kimia...."),
                 TextInput::make('unit')

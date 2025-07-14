@@ -44,6 +44,7 @@
             <input type="text" id="nim_peminjam" name="nim_peminjam" value="{{ old('nim_peminjam') }}" required>
         </div>
         
+        <!-- ✅ INPUT NOMOR TELEPON DITAMBAHKAN KEMBALI DI SINI -->
         <div>
             <label for="no_hp">Nomor HP Aktif:</label>
             <input type="tel" id="no_hp" name="no_hp" value="{{ old('no_hp') }}" required>
@@ -77,9 +78,10 @@
             </select>
         </div>
 
+        <!-- DIV UNTUK INPUT JUMLAH, tersembunyi secara default -->
         <div id="jumlah_pinjam_div" style="display: none;">
             <label for="jumlah_pinjam">Jumlah yang dipinjam:</label>
-            <input type="number" step="0.01" name="jumlah_pinjam" id="jumlah_pinjam">
+            <input type="number" name="jumlah_pinjam" id="jumlah_pinjam">
             <span id="unit_display" style="font-weight: bold;"></span>
         </div>
 
@@ -92,6 +94,7 @@
     <script>
         document.getElementById('item_selection').addEventListener('change', function() {
             const jumlahDiv = document.getElementById('jumlah_pinjam_div');
+            const jumlahInput = document.getElementById('jumlah_pinjam');
             const unitDisplay = document.getElementById('unit_display');
             
             if (!this.value) {
@@ -105,11 +108,16 @@
             document.getElementById('item_type').value = type;
             document.getElementById('item_id').value = id;
 
-            if (type === 'BahanPadat' || type === 'BahanCairanLama') {
-                jumlahDiv.style.display = 'block';
+            // Selalu tampilkan input jumlah jika barang dipilih
+            jumlahDiv.style.display = 'block';
+
+            // Atur properti input berdasarkan tipe barang
+            if (type === 'Alat') {
+                jumlahInput.step = '1'; // Alat hanya bisa bilangan bulat
+                unitDisplay.textContent = 'unit';
+            } else { // Untuk BahanPadat dan BahanCairanLama
+                jumlahInput.step = '0.01'; // Bahan bisa desimal
                 unitDisplay.textContent = selectedOption.dataset.unit || '';
-            } else {
-                jumlahDiv.style.display = 'none';
             }
         });
     </script>

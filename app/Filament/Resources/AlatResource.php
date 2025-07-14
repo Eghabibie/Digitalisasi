@@ -51,10 +51,12 @@ class AlatResource extends Resource
                     ->required()
                     ->label('Kondisi Alat')
                     ->placeholder("Masukan Kondisi Alat...."),
-                TextInput::make('jumlah')
+                TextInput::make('stok')
                     ->required()
-                    ->label('Jumlah')
-                    ->placeholder("Masukan Jumlahnya...."),
+                    ->numeric()
+                    ->minValue(0)
+                    ->label('Stok Tersedia')
+                    ->placeholder("Masukan jumlah stok...."),
                 TextInput::make('merek')
                     ->required()
                     ->label('Merek Alat')
@@ -84,19 +86,17 @@ class AlatResource extends Resource
                 TextColumn::make('kondisi')
                     ->searchable()
                     ->label('Kondisi'),
-                 TextColumn::make('jumlah')
-                    ->searchable()
-                    ->label('Jumlah'),
+                 TextColumn::make('stok')
+                    ->label('Stok Tersedia')
+                    ->numeric()
+                    ->sortable(),
                  TextColumn::make('merek')
                     ->searchable()
                     ->label('Merek'),
                  TextColumn::make('tahun_pengadaan')
                     ->searchable()
                     ->label('Tahun Pengadaan'),
-                 TextColumn::make('stok')
-                    ->label('Stok Tersedia')
-                    ->numeric()
-                    ->sortable(),
+                 
             ])
             ->filters([
                 //
