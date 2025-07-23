@@ -86,7 +86,6 @@ class BahanPadatResource extends Resource
                 TextColumn::make('jumlah')
                     ->label('Stok Tersedia')
                     ->formatStateUsing(fn ($state, $record) => "{$state} {$record->unit}")
-                    ->sortable()
                     ->searchable(query: function ($query, $search) {
                         return $query->where('jumlah', 'like', "%{$search}%");
                     }),

@@ -15,7 +15,7 @@ class ListBahanPadats extends ListRecords
         return [
             Actions\Action::make('export')
                 ->label('Export ke Excel')
-                ->icon('heroicon-o-document-arrow-down')
+                ->icon('heroicon-o-document-arrow-up')
                 ->url(url('/export/bahan-padat')),
             Actions\CreateAction::make(),
         ];

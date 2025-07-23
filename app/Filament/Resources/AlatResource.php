@@ -79,7 +79,7 @@ class AlatResource extends Resource
                     ->searchable(),
                 ImageColumn::make('images')
                     ->disk('public')
-                    ->label('Images'), 
+                    ->label('Gambar'), 
                 TextColumn::make('volume')
                     ->searchable()
                     ->label('Volume'),
