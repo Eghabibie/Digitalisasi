@@ -3,17 +3,14 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PeminjamanResource\Pages;
-use App\Filament\Resources\PeminjamanResource\RelationManagers;
 use App\Models\Peminjaman;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Tables; // iini juga 
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Actions\Action;
+use Filament\Notifications\Notification;
 
 class PeminjamanResource extends Resource
 {
@@ -21,7 +18,7 @@ class PeminjamanResource extends Resource
     protected static ?string $navigationGroup = 'Action Peminjaman';
     protected static ?string $navigationIcon = 'heroicon-o-folder-open';
 
-     public static function getNavigationBadge(): ?string
+    public static function getNavigationBadge(): ?string
     {
         $count = static::getModel()::where('status', 'Menunggu Persetujuan')->count();
         return $count > 0 ? $count : null;
@@ -35,71 +32,78 @@ class PeminjamanResource extends Resource
             ]);
     }
 
-public static function table(Table $table): Table
-{
-    return $table
-        ->columns([
-            TextColumn::make('nama_peminjam')->searchable(),
-            TextColumn::make('nim_peminjam')->searchable(),
-            TextColumn::make('no_hp')->label('No. HP')->searchable(),
-            TextColumn::make('peminjamable.nama')->label('Barang Dipinjam'),
-            TextColumn::make('jumlah')
-                ->label('Jumlah Dipinjam')
-                ->formatStateUsing(function ($state, $record) {
-                    if ($record->peminjamable_type !== 'App\\Models\\Alat') {
-                        return $state . ' ' . $record->peminjamable->unit;
-                    }
-                    return $state;
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                TextColumn::make('nama_peminjam')->searchable(),
+                TextColumn::make('nim_peminjam')->searchable(),
+                TextColumn::make('no_hp')->label('No. HP')->searchable(),
+                TextColumn::make('peminjamable.nama')->label('Barang Dipinjam'),
+                TextColumn::make('jumlah')
+                    ->label('Jumlah Dipinjam')
+                    ->formatStateUsing(function ($state, $record) {
+                        if ($record->peminjamable_type !== 'App\\Models\\Alat') {
+                            return $state . ' ' . $record->peminjamable->unit;
+                        }
+                        return $state;
+                    }),
+                TextColumn::make('status')->badge()->color(fn (string $state): string => match ($state) {
+                    'Menunggu Persetujuan' => 'gray',
+                    'Disetujui' => 'warning',
+                    'Ditolak' => 'danger',
+                    'Dikembalikan' => 'success',
                 }),
-            TextColumn::make('status')->badge()->color(fn (string $state): string => match ($state) {
-                'Menunggu Persetujuan' => 'gray',
-                'Disetujui' => 'warning',
-                'Ditolak' => 'danger',
-                'Dikembalikan' => 'success',
-            }),
-            TextColumn::make('tanggal_pinjam')->date()->sortable(),
-        ])
-        ->actions([
-            Action::make('setujui')
-                ->label('Setujui')
-                ->color('success')->icon('heroicon-o-check-circle')
-                ->action(function (Peminjaman $record) {
-                    $record->update(['status' => 'Disetujui', 'tanggal_pinjam' => now()]);
-                })
-                ->visible(fn (Peminjaman $record): bool => $record->status === 'Menunggu Persetujuan'),
-            Action::make('tolak')
-                ->label('Tolak')
-                ->color('danger')->icon('heroicon-o-x-circle')
-                ->action(function (Peminjaman $record) {
-                    $item = $record->peminjamable;
-                    $jumlah_batal = $record->jumlah;
-                    if ($record->peminjamable_type === 'App\\Models\\Alat') {
-                        $item->increment('stok', $jumlah_batal);
-                    } else {
-                        $item->increment('jumlah', $jumlah_batal);
-                    }
-                    
-                    $record->update(['status' => 'Ditolak']);
-                })
-                ->visible(fn (Peminjaman $record): bool => $record->status === 'Menunggu Persetujuan'),
+                TextColumn::make('tanggal_pinjam')->date(),
+                TextColumn::make('tanggal_kembali')->date(),
+            ])
+            ->actions([
+                Action::make('setujui')
+                    ->label('Setujui')
+                    ->color('success')->icon('heroicon-o-check-circle')
+                    ->action(function (Peminjaman $record) {
+                        $record->update(['status' => 'Disetujui', 'tanggal_pinjam' => now()]);
+                    })
+                    ->visible(fn (Peminjaman $record): bool => $record->status === 'Menunggu Persetujuan'),
+                Action::make('tolak')
+                    ->label('Tolak')
+                    ->color('danger')->icon('heroicon-o-x-circle')
+                    ->action(function (Peminjaman $record) {
+                        $item = $record->peminjamable;
+                        $jumlah_batal = $record->jumlah;
+                        if ($record->peminjamable_type === 'App\\Models\\Alat') {
+                            $item->increment('stok', $jumlah_batal);
+                        } else {
+                            $item->increment('jumlah', $jumlah_batal);
+                        }
+                        
+                        $record->update(['status' => 'Ditolak']);
+                    })
+                    ->visible(fn (Peminjaman $record): bool => $record->status === 'Menunggu Persetujuan'),
 
-            Action::make('kembalikan')
-                ->label('Tandai Kembali')
-                ->color('info')->icon('heroicon-o-archive-box')
-                ->action(function (Peminjaman $record) {
-                    $item = $record->peminjamable;
-                    $jumlah_kembali = $record->jumlah;
-                    if ($record->peminjamable_type === 'App\\Models\\Alat') {
-                        $item->increment('stok', $jumlah_kembali);
-                    } else {
-                        $item->increment('jumlah', $jumlah_kembali);
-                    }
+                Action::make('kembalikan')
+                    ->label('Tandai Telah DiKembalikan')
+                    ->color('info')->icon('heroicon-o-archive-box')
+                    ->action(function (Peminjaman $record) {
+                        $item = $record->peminjamable;
+                        $jumlah_kembali = $record->jumlah;
+                        if ($record->peminjamable_type === 'App\\Models\\Alat') {
+                            $item->increment('stok', $jumlah_kembali);
+                        } else {
+                            $item->increment('jumlah', $jumlah_kembali);
+                        }
 
-                    $record->update(['status' => 'Dikembalikan', 'tanggal_kembali' => now()]);
-                })
-                ->visible(fn (Peminjaman $record): bool => $record->status === 'Disetujui'),
-        ]);
-}
+                        $record->update(['status' => 'Dikembalikan', 'tanggal_kembali' => now()]);
+                    })
+                    ->visible(fn (Peminjaman $record): bool => $record->status === 'Disetujui'),
+            ])
+            //ini dia yang gw tambahin buat actio bulk delete 
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ]);
+    }
 
     public static function getRelations(): array
     {
