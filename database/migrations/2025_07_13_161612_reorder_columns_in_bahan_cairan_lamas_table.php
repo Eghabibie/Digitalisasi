@@ -12,11 +12,24 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bahan_cairan_lamas', function (Blueprint $table) {
-            if (Schema::hasColumn('bahan_cairan_lamas', 'sisa_bahan')) {
-                $table->dropColumn('sisa_bahan');
+            // Hapus kolom 'jumlah' kalau ada, karena now menggunakan 'sisa_bahan'
+            if (Schema::hasColumn('bahan_cairan_lamas', 'jumlah')) {
+                $table->dropColumn('jumlah');
             }
-            $table->decimal('jumlah', 8, 2)->after('rumus_kimia')->change();
-            $table->string('unit', 20)->nullable()->after('jumlah')->change();
+
+            // Pastikan 'sisa_bahan' ada dan berada setelah 'rumus_kimia'
+            if (Schema::hasColumn('bahan_cairan_lamas', 'sisa_bahan')) {
+                $table->decimal('sisa_bahan', 8, 2)->nullable()->after('rumus_kimia')->change();
+            } else {
+                $table->decimal('sisa_bahan', 8, 2)->nullable()->after('rumus_kimia');
+            }
+
+            // Pastikan 'unit' ada dan berada setelah 'sisa_bahan'
+            if (Schema::hasColumn('bahan_cairan_lamas', 'unit')) {
+                $table->string('unit', 20)->nullable()->after('sisa_bahan')->change();
+            } else {
+                $table->string('unit', 20)->nullable()->after('sisa_bahan');
+            }
         });
     }
 
@@ -26,9 +39,24 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('bahan_cairan_lamas', function (Blueprint $table) {
-            $table->decimal('sisa_bahan', 8, 2)->nullable();
-            $table->decimal('jumlah', 8, 2)->after('updated_at')->change();
-            $table->string('unit', 20)->nullable()->after('jumlah')->change();
+            // Kembalikan kolom 'jumlah' seperti semula setelah updated_at
+            if (!Schema::hasColumn('bahan_cairan_lamas', 'jumlah')) {
+                $table->decimal('jumlah', 8, 2)->after('updated_at');
+            } else {
+                $table->decimal('jumlah', 8, 2)->after('updated_at')->change();
+            }
+
+            // Pastikan 'unit' ada setelah 'jumlah'
+            if (Schema::hasColumn('bahan_cairan_lamas', 'unit')) {
+                $table->string('unit', 20)->nullable()->after('jumlah')->change();
+            } else {
+                $table->string('unit', 20)->nullable()->after('jumlah');
+            }
+
+            // Hapus 'sisa_bahan'
+            if (Schema::hasColumn('bahan_cairan_lamas', 'sisa_bahan')) {
+                $table->dropColumn('sisa_bahan');
+            }
         });
     }
 };

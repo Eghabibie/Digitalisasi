@@ -15,7 +15,7 @@ class PinjamController extends Controller
     {
         $alats = Alat::orderBy('nama')->get();
         $bahan_padats = BahanPadat::orderBy('nama')->get();
-        $bahan_cairan_lamas = BahanCairanLama::orderBy('nama')->get(); 
+        $bahan_cairan_lamas = BahanCairanLama::orderBy('nama')->get();
         return view('pinjam', compact('alats', 'bahan_padats', 'bahan_cairan_lamas'));
     }
 
@@ -25,7 +25,7 @@ class PinjamController extends Controller
             'nama_peminjam' => 'required|string|max:255',
             'nim_peminjam' => 'required|string|max:255',
             'no_hp' => 'required|string|max:20',
-            'item_type' => 'required|in:Alat,BahanPadat,BahanCairanLama', 
+            'item_type' => 'required|in:Alat,BahanPadat,BahanCairanLama',
             'item_id' => 'required|integer',
             'jumlah_pinjam' => 'required|numeric|min:0.01',
         ]);
@@ -36,11 +36,13 @@ class PinjamController extends Controller
 
         if ($request->item_type === 'Alat') {
             $request->validate([
-                'jumlah_pinjam' => 'integer|min:1|max:' . $item->stok, 
+                // Diperbaiki: Menggunakan ?? 0 untuk menangani stok yang NULL
+                'jumlah_pinjam' => 'integer|min:1|max:' . ($item->stok ?? 0),
             ]);
-        } else { 
+        } else {
             $request->validate([
-                'jumlah_pinjam' => 'numeric|min:0.01|max:' . $item->jumlah, 
+                // Diperbaiki: Menggunakan ?? 0 untuk menangani jumlah yang NULL
+                'jumlah_pinjam' => 'numeric|min:0.01|max:' . ($item->sisa_bahan ?? 0),
             ]);
         }
 
@@ -53,10 +55,11 @@ class PinjamController extends Controller
             'jumlah' => $jumlah_pinjam,
             'status' => 'Menunggu Persetujuan',
         ]);
+
         if ($request->item_type === 'Alat') {
             $item->decrement('stok', $jumlah_pinjam);
         } else {
-            $item->decrement('jumlah', $jumlah_pinjam); 
+            $item->decrement('sisa_bahan', $jumlah_pinjam);
         }
 
         return back()->with('success', 'Permintaan peminjaman Anda telah dikirim dan sedang menunggu persetujuan admin.');

@@ -67,27 +67,29 @@
                         <select name="item_selection" id="item_selection" required
                                 class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             <option value="">-- Pilih Barang --</option>
-                            <optgroup label="Alat">
-                                @foreach ($alats as $item)
-                                    <option value="Alat-{{ $item->id }}" @if($item->stok <= 0) disabled @endif>
-                                        {{ $item->nama }} (Stok: {{ $item->stok }})
-                                    </option>
-                                @endforeach
-                            </optgroup>
-                            <optgroup label="Bahan Padat">
-                                @foreach ($bahan_padats as $item)
-                                    <option value="BahanPadat-{{ $item->id }}" data-unit="{{ $item->unit }}">
-                                        {{ $item->nama }} (Stok: {{ $item->jumlah }} {{ $item->unit }})
-                                    </option>
-                                @endforeach
-                            </optgroup>
-                            <optgroup label="Bahan Cair">
-                                @foreach ($bahan_cairan_lamas as $item)
-                                    <option value="BahanCairanLama-{{ $item->id }}" data-unit="{{ $item->unit }}">
-                                        {{ $item->nama }} (Stok: {{ $item->jumlah }} {{ $item->unit }})
-                                    </option>
-                                @endforeach
-                            </optgroup>
+                        <optgroup label="Alat">
+                            @foreach ($alats as $item)
+                                <option value="Alat-{{ $item->id }}" @if($item->stok <= 0) disabled @endif>
+                                    {{ $item->nama }} (Stok: {{ $item->stok }})
+                                </option>
+                            @endforeach
+                        </optgroup>
+
+                        <optgroup label="Bahan Padat">
+                            @foreach ($bahan_padats as $item)
+                                <option value="BahanPadat-{{ $item->id }}" data-unit="{{ $item->unit }}" @if($item->sisa_bahan <= 0) disabled @endif>
+                                    {{ $item->nama }} (Sisa: {{ $item->sisa_bahan }} {{ $item->unit }})
+                                </option>
+                            @endforeach
+                        </optgroup>
+
+                        <optgroup label="Bahan Cair">
+                            @foreach ($bahan_cairan_lamas as $item)
+                                <option value="BahanCairanLama-{{ $item->id }}" data-unit="{{ $item->unit }}" @if($item->sisa_bahan <= 0) disabled @endif>
+                                    {{ $item->nama }} (Sisa: {{ $item->sisa_bahan }} {{ $item->unit }})
+                                </option>
+                            @endforeach
+                        </optgroup>
                         </select>
                     </div>
 

@@ -48,7 +48,7 @@ class PeminjamanResource extends Resource
                         }
                         return $state;
                     }),
-                TextColumn::make('status')->badge()->color(fn (string $state): string => match ($state) {
+                TextColumn::make('status')->badge()->color(fn(string $state): string => match ($state) {
                     'Menunggu Persetujuan' => 'gray',
                     'Disetujui' => 'warning',
                     'Ditolak' => 'danger',
@@ -64,7 +64,7 @@ class PeminjamanResource extends Resource
                     ->action(function (Peminjaman $record) {
                         $record->update(['status' => 'Disetujui', 'tanggal_pinjam' => now()]);
                     })
-                    ->visible(fn (Peminjaman $record): bool => $record->status === 'Menunggu Persetujuan'),
+                    ->visible(fn(Peminjaman $record): bool => $record->status === 'Menunggu Persetujuan'),
                 Action::make('tolak')
                     ->label('Tolak')
                     ->color('danger')->icon('heroicon-o-x-circle')
@@ -74,12 +74,12 @@ class PeminjamanResource extends Resource
                         if ($record->peminjamable_type === 'App\\Models\\Alat') {
                             $item->increment('stok', $jumlah_batal);
                         } else {
-                            $item->increment('jumlah', $jumlah_batal);
+                            $item->increment('sisa_bahan', $jumlah_batal);
                         }
-                        
+
                         $record->update(['status' => 'Ditolak']);
                     })
-                    ->visible(fn (Peminjaman $record): bool => $record->status === 'Menunggu Persetujuan'),
+                    ->visible(fn(Peminjaman $record): bool => $record->status === 'Menunggu Persetujuan'),
 
                 Action::make('kembalikan')
                     ->label('Tandai Telah DiKembalikan')
@@ -90,12 +90,12 @@ class PeminjamanResource extends Resource
                         if ($record->peminjamable_type === 'App\\Models\\Alat') {
                             $item->increment('stok', $jumlah_kembali);
                         } else {
-                            $item->increment('jumlah', $jumlah_kembali);
+                            $item->increment('sisa_bahan', $jumlah_kembali);
                         }
 
                         $record->update(['status' => 'Dikembalikan', 'tanggal_kembali' => now()]);
                     })
-                    ->visible(fn (Peminjaman $record): bool => $record->status === 'Disetujui'),
+                    ->visible(fn(Peminjaman $record): bool => $record->status === 'Disetujui'),
             ])
             //ini dia yang gw tambahin buat actio bulk delete 
             ->bulkActions([

@@ -12,7 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Filament\Panel; 
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -25,7 +25,7 @@ class BahanPadatResource extends Resource
     protected static ?string $slug = 'Bahan_Padat';
     protected static ?int $navigationSort = 2;
 
-    public static ?string $label = 'Bahan Padat' ;
+    public static ?string $label = 'Bahan Padat';
     public static function form(Form $form): Form
     {
         return $form
@@ -39,11 +39,11 @@ class BahanPadatResource extends Resource
                     ->label('Rumus Kimia')
                     ->placeholder("Masukan Rumus Kimia...."),
                 TextInput::make('unit')
-                ->label('Satuan (g, mL, dll)')
-                ->required(),
-                TextInput::make('jumlah')
+                    ->label('Satuan (g, mL, dll)')
+                    ->required(),
+                TextInput::make('sisa_bahan')
                     ->required()
-                    ->label('Jumlah')
+                    ->label('Jumlah Bahan')
                     ->placeholder("Masukan Jumlah Bahan...."),
                 TextInput::make('nomor_cas')
                     ->required()
@@ -83,11 +83,11 @@ class BahanPadatResource extends Resource
                 TextColumn::make('rumus_kimia')
                     ->searchable()
                     ->label('Rumus Kimia'),
-                TextColumn::make('jumlah')
+                TextColumn::make('sisa_bahan')
                     ->label('Stok Tersedia')
-                    ->formatStateUsing(fn ($state, $record) => "{$state} {$record->unit}")
+                    ->formatStateUsing(fn($state, $record) => "{$state} {$record->unit}")
                     ->searchable(query: function ($query, $search) {
-                        return $query->where('jumlah', 'like', "%{$search}%");
+                        return $query->where('sisa_bahan', 'like', "%{$search}%");
                     }),
                 TextColumn::make('nomor_cas')
                     ->copyable()

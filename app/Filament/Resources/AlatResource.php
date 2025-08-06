@@ -28,7 +28,7 @@ class AlatResource extends Resource
     {
         return $form
             ->schema([
-               TextInput::make('nama')
+                TextInput::make('nama')
                     ->required()
                     ->label('Nama Alat')
                     ->placeholder("Masukan Nama Alat...."),
@@ -65,7 +65,7 @@ class AlatResource extends Resource
                     ->required()
                     ->label('Tahun Pengadaan')
                     ->placeholder("Masukan Tahun Pengadaan...."),
-                
+
             ]);
     }
 
@@ -73,30 +73,30 @@ class AlatResource extends Resource
     {
         return $table
             ->columns([
-               TextColumn::make('nama')
+                TextColumn::make('nama')
                     ->sortable()
                     ->label('Nama Alat')
                     ->searchable(),
                 ImageColumn::make('images')
                     ->disk('public')
-                    ->label('Gambar'), 
+                    ->label('Gambar'),
                 TextColumn::make('volume')
                     ->searchable()
                     ->label('Volume'),
                 TextColumn::make('kondisi')
                     ->searchable()
                     ->label('Kondisi'),
-                 TextColumn::make('stok')
+                TextColumn::make('stok')
                     ->label('Stok Tersedia')
                     ->numeric()
                     ->sortable(),
-                 TextColumn::make('merek')
+                TextColumn::make('merek')
                     ->searchable()
                     ->label('Merek'),
-                 TextColumn::make('tahun_pengadaan')
+                TextColumn::make('tahun_pengadaan')
                     ->searchable()
                     ->label('Tahun Pengadaan'),
-                 
+
             ])
             ->filters([
                 //
