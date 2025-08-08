@@ -14,7 +14,6 @@ class ExportController extends Controller
         return Excel::download(new ExportBahanPadat(), 'BahanPadat.xlsx');
     }
 
-    // METHOD BARU untuk Bahan Cair
     public function exportBahanCairanLama()
     {
         return Excel::download(new ExportBahanCairanLama(), 'BahanCair.xlsx');

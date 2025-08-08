@@ -3,18 +3,19 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BahanPadatResource\Pages;
-use App\Filament\Resources\BahanPadatResource\RelationManagers;
 use App\Models\BahanPadat;
+use Carbon\Carbon;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Panel;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Table;
 
 class BahanPadatResource extends Resource
 {
@@ -24,51 +25,67 @@ class BahanPadatResource extends Resource
     protected static ?string $navigationLabel = 'Bahan Padat';
     protected static ?string $slug = 'Bahan_Padat';
     protected static ?int $navigationSort = 2;
-
     public static ?string $label = 'Bahan Padat';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('nama')
-                    ->required()
-                    ->label('Nama Cairan')
-                    ->placeholder("Masukan Nama Cairan...."),
-                TextInput::make('rumus_kimia')
-                    ->required()
-                    ->label('Rumus Kimia')
-                    ->placeholder("Masukan Rumus Kimia...."),
-                TextInput::make('unit')
-                    ->label('Satuan (g, mL, dll)')
-                    ->required(),
-                TextInput::make('sisa_bahan')
-                    ->required()
-                    ->label('Jumlah Bahan')
-                    ->placeholder("Masukan Jumlah Bahan...."),
-                TextInput::make('nomor_cas')
-                    ->required()
-                    ->label('Nomor CAS')
-                    ->placeholder("Masukan Nomor CAS...."),
-                TextInput::make('letak')
-                    ->required()
-                    ->label('Letak Barang')
-                    ->placeholder("Masukan Letak Barang...."),
-                TextInput::make('pemilik')
-                    ->required()
-                    ->label('Pemilik')
-                    ->placeholder("Masukan Nama Pemilik...."),
-                TextInput::make('tahun_pengadaan')
-                    ->required()
-                    ->label('Tahun Pengadaan')
-                    ->placeholder("Masukan Tahun Pengadaan...."),
-                TextInput::make('expired')
-                    ->required()
-                    ->label('Expired')
-                    ->placeholder("Masukan Tanggal Expired...."),
-                TextInput::make('merek')
-                    ->required()
-                    ->label('Merek')
-                    ->placeholder("Masukan Nama Merek...."),
+                Section::make('Informasi Bahan Kimia Padat')
+                    ->schema([
+                        Grid::make(2)->schema([
+                            TextInput::make('nama')
+                                ->required()
+                                ->label('Nama Bahan')
+                                ->placeholder("Masukan Nama Bahan Padat"),
+                            TextInput::make('rumus_kimia')
+                                ->label('Rumus Kimia')
+                                ->placeholder("Contoh: NaCl"),
+                            TextInput::make('nomor_cas')
+                                ->label('Nomor CAS')
+                                ->placeholder("Contoh: 7647-14-5"),
+                            TextInput::make('merek')
+                                ->label('Merek')
+                                ->placeholder("Contoh: Merck"),
+                        ]),
+                    ]),
+                Section::make('Informasi Stok dan Penyimpanan')
+                    ->schema([
+                        Grid::make(2)->schema([
+                            TextInput::make('sisa_bahan')
+                                ->required()
+                                ->numeric()
+                                ->label('Jumlah Bahan'),
+                            Select::make('unit')
+                                ->label('Satuan')
+                                ->options([
+                                    'g' => 'g (gram)',
+                                    'kg' => 'kg (kilogram)',
+                                    'mg' => 'mg (miligram)',
+                                    'pcs' => 'pcs (pieces)',
+                                ])
+                                ->required(),
+                            TextInput::make('letak')
+                                ->required()
+                                ->label('Letak Penyimpanan')
+                                ->placeholder("Contoh: Lemari A, Rak 1"),
+                            DatePicker::make('expired')
+                                ->label('Tanggal Kedaluwarsa')
+                                ->required(),
+                        ]),
+                    ]),
+                Section::make('Informasi Pengadaan')
+                    ->schema([
+                        Grid::make(2)->schema([
+                            TextInput::make('pemilik')
+                                ->label('Pemilik')
+                                ->placeholder("Masukan Nama Pemilik"),
+                            TextInput::make('tahun_pengadaan')
+                                ->numeric()
+                                ->label('Tahun Pengadaan')
+                                ->placeholder("Contoh: 2023"),
+                        ]),
+                    ])
             ]);
     }
 
@@ -78,37 +95,41 @@ class BahanPadatResource extends Resource
             ->columns([
                 TextColumn::make('nama')
                     ->sortable()
-                    ->label('Nama Bahan')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Nama Bahan'),
                 TextColumn::make('rumus_kimia')
                     ->searchable()
                     ->label('Rumus Kimia'),
                 TextColumn::make('sisa_bahan')
-                    ->label('Stok Tersedia')
+                    ->label('Sisa')
+                    ->searchable()
                     ->formatStateUsing(fn($state, $record) => "{$state} {$record->unit}")
-                    ->searchable(query: function ($query, $search) {
-                        return $query->where('sisa_bahan', 'like', "%{$search}%");
-                    }),
+                    ->sortable(),
+                TextColumn::make('expired')
+                    ->date('d M Y')
+                    ->sortable()
+                    ->color(
+                        fn(string $state): string =>
+                        Carbon::parse($state)->isPast() ? 'danger' : 'success'
+                    )
+                    ->icon(
+                        fn(string $state): string =>
+                        Carbon::parse($state)->isPast() ? 'heroicon-o-x-circle' : 'heroicon-o-check-circle'
+                    ),
                 TextColumn::make('nomor_cas')
                     ->copyable()
-                    ->copyMessage('Teks Tersalin')
                     ->searchable()
-                    ->label('Nomor CAS'),
+                    ->label('Nomor CAS')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('letak')
                     ->searchable()
-                    ->label('Letak'),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('pemilik')
                     ->searchable()
-                    ->label('Pemilik'),
-                TextColumn::make('tahun_pengadaan')
-                    ->searchable()
-                    ->label('Tahun Pengadaan'),
-                TextColumn::make('expired')
-                    ->searchable()
-                    ->label('Expired'),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('merek')
                     ->searchable()
-                    ->label('Merek'),
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
@@ -116,6 +137,7 @@ class BahanPadatResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -126,9 +148,7 @@ class BahanPadatResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array

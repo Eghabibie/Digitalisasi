@@ -36,12 +36,10 @@ class PinjamController extends Controller
 
         if ($request->item_type === 'Alat') {
             $request->validate([
-                // Diperbaiki: Menggunakan ?? 0 untuk menangani stok yang NULL
                 'jumlah_pinjam' => 'integer|min:1|max:' . ($item->stok ?? 0),
             ]);
         } else {
             $request->validate([
-                // Diperbaiki: Menggunakan ?? 0 untuk menangani jumlah yang NULL
                 'jumlah_pinjam' => 'numeric|min:0.01|max:' . ($item->sisa_bahan ?? 0),
             ]);
         }

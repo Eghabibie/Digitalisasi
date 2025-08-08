@@ -43,8 +43,8 @@ class PeminjamanResource extends Resource
                 TextColumn::make('jumlah')
                     ->label('Jumlah Dipinjam')
                     ->formatStateUsing(function ($state, $record) {
-                        if ($record->peminjamable_type !== 'App\\Models\\Alat') {
-                            return $state . ' ' . $record->peminjamable->unit;
+                        if ($record->peminjamable_type !== 'App\\Models\\Alat' && $record->peminjamable) {
+                            return $state . ' ' . $record->peminjamable?->unit;
                         }
                         return $state;
                     }),
@@ -97,7 +97,6 @@ class PeminjamanResource extends Resource
                     })
                     ->visible(fn(Peminjaman $record): bool => $record->status === 'Disetujui'),
             ])
-            //ini dia yang gw tambahin buat actio bulk delete 
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
