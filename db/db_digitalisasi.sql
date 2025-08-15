@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 08, 2025 at 03:29 AM
+-- Generation Time: Aug 15, 2025 at 04:09 PM
 -- Server version: 8.0.30
--- PHP Version: 8.1.10
+-- PHP Version: 8.2.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -45,9 +45,9 @@ CREATE TABLE `alats` (
 --
 
 INSERT INTO `alats` (`id`, `nama`, `images`, `volume`, `kondisi`, `stok`, `merek`, `tahun_pengadaan`, `created_at`, `updated_at`) VALUES
-(3, 'wdadw', '[\"alat-images\\/01K23Q79DYXF4XBZYF7Y2VHRA6.jpg\",\"alat-images\\/01K23QGQCMFEKE8BWSBQBAHNN9.png\",\"alat-images\\/01K23QGQD95VYCWT22HR8CZJGN.png\"]', 'fesffs', 'Rusak Ringan', 4, '-', '-', '2025-08-06 03:36:07', '2025-08-07 19:17:49'),
-(4, 'AE 86 TUreno', '[\"alat-images\\/01K23QN2WBBA0379ZSEG0X9JZD.png\",\"alat-images\\/01K23QN2WGWKHTGCMXTXHPSN9T.png\"]', '250ml', 'Baik', 5, 'TOYOTA', '1985', '2025-08-07 19:20:12', '2025-08-07 19:20:12'),
-(5, 'blue eyes white dragon', '[\"alat-images\\/01K23QVAYSTG1V874ZAR1768VA.png\",\"alat-images\\/01K23QVAZCN9SS391ZS2RB15DV.jpeg\",\"alat-images\\/01K23QVAZM8P3BG7SM6TMMPR87.jpg\"]', '250ml', 'Rusak Berat', 5, 'Yu-Gi-Oh!', '1996', '2025-08-07 19:23:36', '2025-08-07 20:27:49');
+(3, 'wdadw', '[\"alat-images\\/01K2FE2X7PKXSVCBT738CE47W8.png\"]', 'fesffs', 'Rusak Ringan', 4, '-', '-', '2025-08-06 03:36:07', '2025-08-15 08:34:39'),
+(4, 'AE 86 TUreno', '[\"alat-images\\/01K2FE5X71VEK55PDKQHKEVTXB.png\"]', '250ml', 'Baik', 5, 'TOYOTA', '1985', '2025-08-07 19:20:12', '2025-08-12 08:25:30'),
+(5, 'blue eyes white dragon', '[\"alat-images\\/01K2FE6FGDHYQE7D7GSNKSY1ES.png\"]', '250ml', 'Rusak Berat', 5, 'Yu-Gi-Oh!', '1996', '2025-08-07 19:23:36', '2025-08-12 08:27:01');
 
 -- --------------------------------------------------------
 
@@ -80,7 +80,7 @@ INSERT INTO `bahan_cairan_lamas` (`id`, `nama`, `rumus_kimia`, `sisa_bahan`, `un
 (80, 'Asam Klorida', 'HCL', '800.00', 'ml', '7647-01-0', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (81, 'Asam Nitrat', 'HNO3', '400.00', 'ml', '7697-37-2', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (82, 'Asam Asetat', 'CH3COOH', '400.00', 'ml', '64-19-7', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(83, 'Asam Formiat', 'CH2O2', '200.00', 'ml', '64-18-6', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(83, 'Asam Formiat', 'CH2O2', '200.00', 'ml', '64-18-6', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-12 04:18:55'),
 (84, 'Ammonia', 'NH3', '100.00', 'mL', '7664-41-7', '-', '-', '2020', '2025-08-30', '-', NULL, '2025-08-07 18:16:24'),
 (85, 'Ammonium Hidroksida', 'NH4OH', '400.00', 'ml', '1336-21-6', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (86, 'Aseton', 'C3H6O', '250.00', 'ml', '67-64-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -101,7 +101,7 @@ INSERT INTO `bahan_cairan_lamas` (`id`, `nama`, `rumus_kimia`, `sisa_bahan`, `un
 (101, 'Natrium hipoklorida', 'NaCIO', '1000.00', 'ml', '7681-52-9', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (102, 'N-heksana', 'C6H14', '500.00', 'ml', '110-54-3', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (103, 'p- xilena', 'C8H10', '500.00', 'ml', '95-47-6', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(104, 'spiritus', '', '200.00', 'ml', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(104, 'spiritus', 'CH3OH', '200.00', 'ml', '', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-11 06:48:11');
 
 -- --------------------------------------------------------
 
@@ -130,7 +130,7 @@ CREATE TABLE `bahan_padats` (
 --
 
 INSERT INTO `bahan_padats` (`id`, `nama`, `rumus_kimia`, `sisa_bahan`, `unit`, `nomor_cas`, `letak`, `pemilik`, `tahun_pengadaan`, `expired`, `merek`, `created_at`, `updated_at`) VALUES
-(2, 'Amonium Klorida', 'NH4Cl', '800.00', 'g', '7664-93-9', 'adwad', '-', '2200', '2025-07-16', 'wadwad', '2025-08-07 18:08:03', '2025-08-07 19:25:20');
+(2, 'Amonium Klorida', 'NH4Cl', '800.00', 'g', '7664-93-9', 'adwad', '-', '2200', '2025-07-16', 'wadwad', '2025-08-07 18:08:03', '2025-08-15 08:34:43');
 
 -- --------------------------------------------------------
 
@@ -149,8 +149,12 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('laravel_cache_356a192b7913b04c54574d18c28d46e6395428ab', 'i:2;', 1754619866),
-('laravel_cache_356a192b7913b04c54574d18c28d46e6395428ab:timer', 'i:1754619866;', 1754619866);
+('laravel_cache_356a192b7913b04c54574d18c28d46e6395428ab', 'i:2;', 1755012388),
+('laravel_cache_356a192b7913b04c54574d18c28d46e6395428ab:timer', 'i:1755012388;', 1755012388),
+('laravel_cache_5c785c036466adea360111aa28563bfd556b5fba', 'i:1;', 1755271932),
+('laravel_cache_5c785c036466adea360111aa28563bfd556b5fba:timer', 'i:1755271932;', 1755271932),
+('laravel_cache_livewire-rate-limiter:a17961fa74e9275d529f489537f179c05d50c2f3', 'i:1;', 1755271939),
+('laravel_cache_livewire-rate-limiter:a17961fa74e9275d529f489537f179c05d50c2f3:timer', 'i:1755271939;', 1755271939);
 
 -- --------------------------------------------------------
 
@@ -246,7 +250,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (13, '2025_07_13_161439_reorder_columns_in_bahan_padats_table', 2),
 (14, '2025_07_13_161612_reorder_columns_in_bahan_cairan_lamas_table', 2),
 (15, '2025_07_14_054714_add_no_hp_to_peminjamans_table', 2),
-(16, '2025_07_14_082546_remove_jumlah_column_from_alats_table', 2);
+(16, '2025_07_14_082546_remove_jumlah_column_from_alats_table', 2),
+(17, '2025_08_12_143029_create_surat_bebas_labs_table', 3);
 
 -- --------------------------------------------------------
 
@@ -286,10 +291,10 @@ CREATE TABLE `peminjamans` (
 --
 
 INSERT INTO `peminjamans` (`id`, `nama_peminjam`, `nim_peminjam`, `no_hp`, `peminjamable_type`, `peminjamable_id`, `jumlah`, `tanggal_pinjam`, `tanggal_kembali`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'egi', '2121', '08122415151', 'App\\Models\\BahanPadat', 1, 250, NULL, NULL, 'Ditolak', '2025-08-06 04:22:56', '2025-08-06 04:27:19'),
-(2, 'egi disa habibie', '12312321', '08122415151', 'App\\Models\\BahanPadat', 1, 250, NULL, NULL, 'Ditolak', '2025-08-07 01:54:27', '2025-08-07 01:59:12'),
-(3, 'egi disa habibie', '12312321', '08122415151', 'App\\Models\\BahanCairanLama', 84, 50, NULL, NULL, 'Ditolak', '2025-08-07 16:52:46', '2025-08-07 17:24:12'),
-(4, 'egi disa habibie', '12312321', '08122415151', 'App\\Models\\Alat', 5, 1, '2025-08-08', '2025-08-08', 'Dikembalikan', '2025-08-07 20:27:01', '2025-08-07 20:27:49');
+(20, 'egi disa habibie', '12312321', '08122415151', 'App\\Models\\Alat', 4, 1, '2025-08-12', '2025-08-12', 'Dikembalikan', '2025-08-12 06:16:42', '2025-08-12 06:35:08'),
+(21, 'egi disa habibie', '12312321', '08122415151', 'App\\Models\\Alat', 5, 2, NULL, NULL, 'Ditolak', '2025-08-12 08:26:28', '2025-08-12 08:27:01'),
+(22, 'egi disa habibie', '12312321', '08122415151', 'App\\Models\\Alat', 3, 1, '2025-08-15', '2025-08-15', 'Dikembalikan', '2025-08-15 08:31:13', '2025-08-15 08:34:39'),
+(23, 'egi disa habibie', '12312321', '08122415151', 'App\\Models\\BahanPadat', 2, 400, '2025-08-15', '2025-08-15', 'Dikembalikan', '2025-08-15 08:31:14', '2025-08-15 08:34:43');
 
 -- --------------------------------------------------------
 
@@ -311,7 +316,26 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('t9T4nj1uHLL8sTbAQ78Zlhu7cszZ8G9M8MpG1MWO', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiT2VESnFzbTNDeHZsamI1bE0zcU5vUUU1WGpUUkdhUkF6emhCTElpdiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9hbGF0cyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MzoidXJsIjthOjA6e31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MTc6InBhc3N3b3JkX2hhc2hfd2ViIjtzOjYwOiIkMnkkMTIka3VwVmY2LlN3MHBTVFh3VlQxQ0oxZTVBelp6Mi8wZjlWR2JDWWFpLy5DQkpFRFk3VjdkLnEiO3M6ODoiZmlsYW1lbnQiO2E6MDp7fX0=', 1754623679);
+('BdZAEIpORVywrndUTB1SVtZV2ONT8QL901xNvBcW', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiQkFiYlJBVFZha3F0MVlCWWtTSFdYNHR2U25sQVZIdUtLSmcycnlWSSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1755176517),
+('ImChC6nisz4Skfzh5Z1yEHhik0CZzg2ETldOC5DH', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiTEx5dHg0RXJacWtRcHpqcjVlQ052WVZocUVwejZnRk9mZksyZ21QMiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MzoidXJsIjthOjA6e31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MTc6InBhc3N3b3JkX2hhc2hfd2ViIjtzOjYwOiIkMnkkMTIka3VwVmY2LlN3MHBTVFh3VlQxQ0oxZTVBelp6Mi8wZjlWR2JDWWFpLy5DQkpFRFk3VjdkLnEiO3M6ODoiZmlsYW1lbnQiO2E6MDp7fX0=', 1755012425),
+('S9ACFisunK79FgyN2VLt6W2tLUXIIV8GWHTRrK3z', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiRFByZmliSVVKaWtkOWNCV3Y2aE55Z0RYMDZOUmRtRERWNVFGRkYyQyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MzoidXJsIjthOjA6e31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MTc6InBhc3N3b3JkX2hhc2hfd2ViIjtzOjYwOiIkMnkkMTIka3VwVmY2LlN3MHBTVFh3VlQxQ0oxZTVBelp6Mi8wZjlWR2JDWWFpLy5DQkpFRFk3VjdkLnEiO30=', 1755274157);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `surat_bebas_labs`
+--
+
+CREATE TABLE `surat_bebas_labs` (
+  `id` bigint UNSIGNED NOT NULL,
+  `nama_peminjam` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nim` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `no_hp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `file_path` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -419,6 +443,12 @@ ALTER TABLE `sessions`
   ADD KEY `sessions_last_activity_index` (`last_activity`);
 
 --
+-- Indexes for table `surat_bebas_labs`
+--
+ALTER TABLE `surat_bebas_labs`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -463,13 +493,19 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `peminjamans`
 --
 ALTER TABLE `peminjamans`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `surat_bebas_labs`
+--
+ALTER TABLE `surat_bebas_labs`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
