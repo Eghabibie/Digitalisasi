@@ -7,7 +7,8 @@ use App\Models\BahanPadat;
 use App\Models\BahanCairanLama;
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class PinjamController extends Controller
 {
@@ -16,66 +17,68 @@ class PinjamController extends Controller
         $alats = Alat::orderBy('nama')->get();
         $bahan_padats = BahanPadat::orderBy('nama')->get();
         $bahan_cairan_lamas = BahanCairanLama::orderBy('nama')->get();
+
         return view('pinjam', compact('alats', 'bahan_padats', 'bahan_cairan_lamas'));
     }
 
-   public function store(Request $request)
+    public function store(Request $request)
     {
-        // 1. Validasi data peminjam dan memastikan keranjang (items) tidak kosong.
-        $request->validate([
+        $validatedData = $request->validate([
             'nama_peminjam' => 'required|string|max:255',
             'nim_peminjam'  => 'required|string|max:255',
             'no_hp'         => 'required|string|max:20',
-            'items'         => 'required|array|min:1', // Memastikan minimal ada 1 item di keranjang
+            'items'         => 'required|array|min:1',
             'items.*.item_id'       => 'required|integer',
-            'items.*.item_type'     => 'required|string|in:Alat,BahanPadat,BahanCairanLama',
+            'items.*.item_type'     => 'required|string',
             'items.*.jumlah_pinjam' => 'required|numeric|min:0.01',
         ]);
 
-        // 2. Validasi stok untuk SETIAP item SEBELUM melakukan penyimpanan.
-        // Ini untuk mencegah hanya sebagian barang yang berhasil dipinjam jika salah satu stoknya tidak cukup.
-        foreach ($request->items as $itemData) {
-            $modelClass = 'App\\Models\\' . $itemData['item_type'];
-            $item = $modelClass::findOrFail($itemData['item_id']);
-            $jumlah_pinjam = $itemData['jumlah_pinjam'];
+        DB::transaction(function () use ($validatedData, $request) {
+            $allowedModels = [
+                'Alat' => \App\Models\Alat::class,
+                'BahanPadat' => \App\Models\BahanPadat::class,
+                'BahanCairanLama' => \App\Models\BahanCairanLama::class,
+            ];
 
-            if ($itemData['item_type'] === 'Alat') {
-                if ($jumlah_pinjam > $item->stok) {
-                    return back()->withErrors(['stok' => 'Jumlah peminjaman untuk ' . $item->nama . ' melebihi stok yang tersedia.'])->withInput();
+            foreach ($validatedData['items'] as $index => $itemData) {
+
+                if (!isset($allowedModels[$itemData['item_type']])) {
+                    throw ValidationException::withMessages([
+                        'items.' . $index . '.item_type' => 'Tipe barang tidak valid.'
+                    ]);
                 }
-            } else {
-                if ($jumlah_pinjam > $item->sisa_bahan) {
-                    return back()->withErrors(['stok' => 'Jumlah peminjaman untuk ' . $item->nama . ' melebihi sisa bahan yang tersedia.'])->withInput();
+
+                $modelClass = $allowedModels[$itemData['item_type']];
+                $jumlah_pinjam = $itemData['jumlah_pinjam'];
+
+                $item = $modelClass::where('id', $itemData['item_id'])->lockForUpdate()->firstOrFail();
+
+                $stokTersedia = ($itemData['item_type'] === 'Alat') ? $item->stok : $item->sisa_bahan;
+
+                if ($jumlah_pinjam > $stokTersedia) {
+                    throw ValidationException::withMessages([
+                        'items.' . $index . '.jumlah_pinjam' => 'Stok untuk ' . $item->nama . ' tidak cukup (sisa: ' . $stokTersedia . ').'
+                    ]);
+                }
+
+                Peminjaman::create([
+                    'nama_peminjam' => $request->nama_peminjam,
+                    'nim_peminjam' => $request->nim_peminjam,
+                    'no_hp' => $request->no_hp,
+                    'peminjamable_id' => $itemData['item_id'],
+                    'peminjamable_type' => $modelClass,
+                    'jumlah' => $jumlah_pinjam,
+                    'status' => 'Menunggu Persetujuan',
+                ]);
+
+                if ($itemData['item_type'] === 'Alat') {
+                    $item->decrement('stok', $jumlah_pinjam);
+                } else {
+                    $item->decrement('sisa_bahan', $jumlah_pinjam);
                 }
             }
-        }
+        });
 
-        // 3. Jika semua validasi lolos, simpan setiap item ke database.
-        foreach ($request->items as $itemData) {
-            $modelClass = 'App\\Models\\' . $itemData['item_type'];
-            $item = $modelClass::findOrFail($itemData['item_id']);
-            $jumlah_pinjam = $itemData['jumlah_pinjam'];
-
-            // Buat record peminjaman baru
-            Peminjaman::create([
-                'nama_peminjam' => $request->nama_peminjam,
-                'nim_peminjam' => $request->nim_peminjam,
-                'no_hp' => $request->no_hp,
-                'peminjamable_id' => $itemData['item_id'],
-                'peminjamable_type' => $modelClass,
-                'jumlah' => $jumlah_pinjam,
-                'status' => 'Menunggu Persetujuan', // Status awal
-            ]);
-
-            // Kurangi stok atau sisa bahan
-            if ($itemData['item_type'] === 'Alat') {
-                $item->decrement('stok', $jumlah_pinjam);
-            } else {
-                $item->decrement('sisa_bahan', $jumlah_pinjam);
-            }
-        }
-
-        // 4. Kembalikan ke halaman sebelumnya dengan pesan sukses.
-        return back()->with('success', 'Permintaan peminjaman Anda untuk ' . count($request->items) . ' barang telah dikirim!');
+        return back()->with('success', 'Permintaan peminjaman untuk ' . count($request->items) . ' barang telah berhasil dikirim!');
     }
 }

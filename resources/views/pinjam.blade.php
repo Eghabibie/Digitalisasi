@@ -113,7 +113,11 @@
                     @endif
                     <div class="h-36 md:h-48 p-2 md:p-4">
                         <div class="formula-display text-2xl md:text-4xl">
-                            {!! !empty($item->rumus_kimia) ? $item->rumus_kimia : '<i class="fa-solid fa-cubes text-gray-400"></i>' !!}
+                            @if(!empty($item->rumus_kimia))
+                                {{ $item->rumus_kimia }}
+                            @else
+                                <i class="fa-solid fa-cubes text-gray-400"></i>
+                            @endif
                         </div>
                     </div>
                     <div class="p-3 flex flex-col flex-grow">
@@ -133,25 +137,25 @@
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                  @foreach ($bahan_cairan_lamas as $item)
                  <div class="item-card relative bg-[var(--bg-secondary)] rounded-lg shadow-md overflow-hidden transform transition-transform hover:scale-105 duration-300 flex flex-col">
-                    @if($item->sisa_bahan <= 0)
-                    <div class="absolute inset-0 bg-white/60 backdrop-blur-sm flex items-center justify-center z-10 p-2">
-                        <span class="text-sm md:text-base font-bold text-red-600 border-2 border-red-500 bg-white px-3 py-1 rounded-md">Habis</span>
-                    </div>
-                    @endif
-                    <div class="h-36 md:h-48 p-2 md:p-4">
-                        <div class="formula-display text-2xl md:text-4xl">
-                           {!! !empty($item->rumus_kimia) ? $item->rumus_kimia : '<i class="fa-solid fa-vial text-gray-400"></i>' !!}
-                        </div>
-                    </div>
-                    <div class="p-3 flex flex-col flex-grow">
-                        <h3 class="font-semibold text-base truncate item-name">{{ $item->nama }}</h3>
-                        <p class="text-xs text-[var(--text-secondary)] mb-2">Sisa: <span class="font-medium text-gray-800">{{ $item->sisa_bahan }}</span> {{ $item->unit }}</p>
-                        <button class="add-to-cart-btn mt-auto w-full bg-[var(--accent-primary)] text-white py-2 px-3 rounded-md font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" data-id="BahanCairanLama-{{ $item->id }}" data-nama="{{ $item->nama }}" data-stok="{{ $item->sisa_bahan }}" data-unit="{{ $item->unit }}" data-tipe="BahanCairanLama" @if($item->sisa_bahan <= 0) disabled @endif>
-                           <i class="fa-solid fa-plus mr-1"></i> Tambah
-                        </button>
-                    </div>
-                </div>
-                @endforeach
+                     @if($item->sisa_bahan <= 0)
+                     <div class="absolute inset-0 bg-white/60 backdrop-blur-sm flex items-center justify-center z-10 p-2">
+                         <span class="text-sm md:text-base font-bold text-red-600 border-2 border-red-500 bg-white px-3 py-1 rounded-md">Habis</span>
+                     </div>
+                     @endif
+                     <div class="h-36 md:h-48 p-2 md:p-4">
+                         <div class="formula-display text-2xl md:text-4xl">
+                            {!! !empty($item->rumus_kimia) ? $item->rumus_kimia : '<i class="fa-solid fa-vial text-gray-400"></i>' !!}
+                         </div>
+                     </div>
+                     <div class="p-3 flex flex-col flex-grow">
+                         <h3 class="font-semibold text-base truncate item-name">{{ $item->nama }}</h3>
+                         <p class="text-xs text-[var(--text-secondary)] mb-2">Sisa: <span class="font-medium text-gray-800">{{ $item->sisa_bahan }}</span> {{ $item->unit }}</p>
+                         <button class="add-to-cart-btn mt-auto w-full bg-[var(--accent-primary)] text-white py-2 px-3 rounded-md font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" data-id="BahanCairanLama-{{ $item->id }}" data-nama="{{ $item->nama }}" data-stok="{{ $item->sisa_bahan }}" data-unit="{{ $item->unit }}" data-tipe="BahanCairanLama" @if($item->sisa_bahan <= 0) disabled @endif>
+                            <i class="fa-solid fa-plus mr-1"></i> Tambah
+                         </button>
+                     </div>
+                 </div>
+                 @endforeach
             </div>
         </section>
         
@@ -383,7 +387,6 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleModal(true);
     @endif
     
-    // --- PERUBAHAN LOGIKA PENCARIAN DIMULAI DI SINI ---
     const searchInput = document.getElementById('searchInput');
     const allSections = document.querySelectorAll('.catalog-section');
     const noResultsMessage = document.getElementById('no-results-message');
@@ -397,14 +400,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const cardsInSection = section.querySelectorAll('.item-card');
             
             cardsInSection.forEach(card => {
-                // Ambil teks dari nama barang
                 const itemName = card.querySelector('.item-name').textContent.toLowerCase();
-                
-                // Ambil teks dari rumus kimia (jika ada)
                 const formulaElement = card.querySelector('.formula-display');
                 const itemFormula = formulaElement ? formulaElement.textContent.toLowerCase() : '';
-
-                // Cek apakah nama ATAU rumus kimia cocok dengan pencarian
                 const isVisible = itemName.includes(searchTerm) || (itemFormula && itemFormula.includes(searchTerm));
                 
                 card.style.display = isVisible ? 'flex' : 'none';
@@ -424,8 +422,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         noResultsMessage.style.display = (totalVisibleItems === 0 && searchTerm !== '') ? 'block' : 'none';
     });
-    // --- PERUBAHAN LOGIKA PENCARIAN BERAKHIR DI SINI ---
-
 
     const searchContainer = document.getElementById('search-container');
     if(searchContainer) {
