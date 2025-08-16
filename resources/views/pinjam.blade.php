@@ -99,6 +99,12 @@
                 </div>
                 @endforeach
             </div>
+            <div class="text-center mt-8 show-more-container" style="display: none;">
+                <button class="show-more-btn inline-flex items-center justify-center rounded-full bg-indigo-100 px-6 py-2 font-semibold text-indigo-700 transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:bg-indigo-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    <span>Lihat Semua</span>
+                    <i class="fa-solid fa-angles-down ml-2"></i>
+                </button>
+            </div>
         </section>
 
         <section id="bahan-padat" class="catalog-section mt-10 md:mt-12">
@@ -130,6 +136,12 @@
                 </div>
                 @endforeach
             </div>
+            <div class="text-center mt-8 show-more-container" style="display: none;">
+                <button class="show-more-btn inline-flex items-center justify-center rounded-full bg-indigo-100 px-6 py-2 font-semibold text-indigo-700 transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:bg-indigo-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    <span>Lihat Semua</span>
+                    <i class="fa-solid fa-angles-down ml-2"></i>
+                </button>
+            </div>
         </section>
 
         <section id="bahan-cair" class="catalog-section mt-10 md:mt-12">
@@ -137,25 +149,31 @@
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                  @foreach ($bahan_cairan_lamas as $item)
                  <div class="item-card relative bg-[var(--bg-secondary)] rounded-lg shadow-md overflow-hidden transform transition-transform hover:scale-105 duration-300 flex flex-col">
-                     @if($item->sisa_bahan <= 0)
-                     <div class="absolute inset-0 bg-white/60 backdrop-blur-sm flex items-center justify-center z-10 p-2">
-                         <span class="text-sm md:text-base font-bold text-red-600 border-2 border-red-500 bg-white px-3 py-1 rounded-md">Habis</span>
-                     </div>
-                     @endif
-                     <div class="h-36 md:h-48 p-2 md:p-4">
-                         <div class="formula-display text-2xl md:text-4xl">
-                            {!! !empty($item->rumus_kimia) ? $item->rumus_kimia : '<i class="fa-solid fa-vial text-gray-400"></i>' !!}
-                         </div>
-                     </div>
-                     <div class="p-3 flex flex-col flex-grow">
-                         <h3 class="font-semibold text-base truncate item-name">{{ $item->nama }}</h3>
-                         <p class="text-xs text-[var(--text-secondary)] mb-2">Sisa: <span class="font-medium text-gray-800">{{ $item->sisa_bahan }}</span> {{ $item->unit }}</p>
-                         <button class="add-to-cart-btn mt-auto w-full bg-[var(--accent-primary)] text-white py-2 px-3 rounded-md font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" data-id="BahanCairanLama-{{ $item->id }}" data-nama="{{ $item->nama }}" data-stok="{{ $item->sisa_bahan }}" data-unit="{{ $item->unit }}" data-tipe="BahanCairanLama" @if($item->sisa_bahan <= 0) disabled @endif>
-                            <i class="fa-solid fa-plus mr-1"></i> Tambah
-                         </button>
-                     </div>
+                      @if($item->sisa_bahan <= 0)
+                      <div class="absolute inset-0 bg-white/60 backdrop-blur-sm flex items-center justify-center z-10 p-2">
+                          <span class="text-sm md:text-base font-bold text-red-600 border-2 border-red-500 bg-white px-3 py-1 rounded-md">Habis</span>
+                      </div>
+                      @endif
+                      <div class="h-36 md:h-48 p-2 md:p-4">
+                          <div class="formula-display text-2xl md:text-4xl">
+                               {!! !empty($item->rumus_kimia) ? $item->rumus_kimia : '<i class="fa-solid fa-vial text-gray-400"></i>' !!}
+                          </div>
+                      </div>
+                      <div class="p-3 flex flex-col flex-grow">
+                          <h3 class="font-semibold text-base truncate item-name">{{ $item->nama }}</h3>
+                          <p class="text-xs text-[var(--text-secondary)] mb-2">Sisa: <span class="font-medium text-gray-800">{{ $item->sisa_bahan }}</span> {{ $item->unit }}</p>
+                          <button class="add-to-cart-btn mt-auto w-full bg-[var(--accent-primary)] text-white py-2 px-3 rounded-md font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" data-id="BahanCairanLama-{{ $item->id }}" data-nama="{{ $item->nama }}" data-stok="{{ $item->sisa_bahan }}" data-unit="{{ $item->unit }}" data-tipe="BahanCairanLama" @if($item->sisa_bahan <= 0) disabled @endif>
+                              <i class="fa-solid fa-plus mr-1"></i> Tambah
+                          </button>
+                      </div>
                  </div>
                  @endforeach
+            </div>
+            <div class="text-center mt-8 show-more-container" style="display: none;">
+                <button class="show-more-btn inline-flex items-center justify-center rounded-full bg-indigo-100 px-6 py-2 font-semibold text-indigo-700 transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:bg-indigo-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    <span>Lihat Semua</span>
+                    <i class="fa-solid fa-angles-down ml-2"></i>
+                </button>
             </div>
         </section>
         
@@ -312,10 +330,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         renderList();
     };
+
     const removeItemFromList = (id) => {
         delete loanList[id];
         renderList();
     };
+
     listButton.addEventListener('click', () => toggleModal(true));
     closeModalBtn.addEventListener('click', () => toggleModal(false));
     listModalOverlay.addEventListener('click', (e) => { if (e.target === listModalOverlay) toggleModal(false); });
@@ -332,7 +352,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    listItemsContainer.addEventListener('input', e => {
+    listItemsContainer.addEventListener('change', e => {
         if (e.target.classList.contains('quantity-input')) {
             const id = e.target.dataset.id;
             if (!loanList[id]) return;
@@ -346,11 +366,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 newQuantity = loanList[id].stok;
                 Swal.fire({ toast: true, position: 'top-end', icon: 'error', title: 'Melebihi stok!', showConfirmButton: false, timer: 1500 });
             }
+            
             if (newQuantity === 0) {
-                 removeItemFromList(id);
-                 renderList();
-                 return;
+                removeItemFromList(id);
+                return;
             }
+            
             loanList[id].quantity = newQuantity;
             e.target.value = newQuantity;
         }
@@ -390,39 +411,97 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
     const allSections = document.querySelectorAll('.catalog-section');
     const noResultsMessage = document.getElementById('no-results-message');
-    
+    const INITIAL_ITEMS_TO_SHOW = 8;
+
+    allSections.forEach(section => {
+        const grid = section.querySelector('.grid');
+        const items = Array.from(grid.querySelectorAll('.item-card'));
+        const showMoreContainer = section.querySelector('.show-more-container');
+
+        if (!showMoreContainer) return;
+
+        const showMoreBtn = showMoreContainer.querySelector('.show-more-btn');
+        
+        const expand = () => {
+            items.forEach(item => item.style.display = 'flex');
+            showMoreContainer.style.display = 'none';
+            section.dataset.expanded = 'true';
+        };
+        
+        const collapse = () => {
+            items.forEach((item, index) => {
+                item.style.display = (index < INITIAL_ITEMS_TO_SHOW) ? 'flex' : 'none';
+            });
+            showMoreContainer.style.display = 'block';
+            section.dataset.expanded = 'false';
+        };
+
+        if (items.length > INITIAL_ITEMS_TO_SHOW) {
+            collapse();
+            showMoreBtn.addEventListener('click', expand);
+        }
+    });
+
     searchInput.addEventListener('input', function() {
         const searchTerm = this.value.toLowerCase().trim();
         let totalVisibleItems = 0;
-        
-        allSections.forEach(section => {
-            let visibleCardsInSection = 0;
-            const cardsInSection = section.querySelectorAll('.item-card');
-            
-            cardsInSection.forEach(card => {
-                const itemName = card.querySelector('.item-name').textContent.toLowerCase();
-                const formulaElement = card.querySelector('.formula-display');
-                const itemFormula = formulaElement ? formulaElement.textContent.toLowerCase() : '';
-                const isVisible = itemName.includes(searchTerm) || (itemFormula && itemFormula.includes(searchTerm));
+
+        if (searchTerm !== '') {
+            document.querySelectorAll('.show-more-container').forEach(c => c.style.display = 'none');
+
+            allSections.forEach(section => {
+                let visibleCardsInSection = 0;
+                const cardsInSection = section.querySelectorAll('.item-card');
                 
-                card.style.display = isVisible ? 'flex' : 'none';
-                
-                if (isVisible) {
-                    visibleCardsInSection++;
+                cardsInSection.forEach(card => {
+                    const itemName = card.querySelector('.item-name').textContent.toLowerCase();
+                    const formulaElement = card.querySelector('.formula-display');
+                    const itemFormula = formulaElement ? formulaElement.textContent.toLowerCase().trim() : '';
+                    const isMatch = itemName.includes(searchTerm) || (itemFormula && itemFormula.includes(searchTerm));
+                    
+                    card.style.display = isMatch ? 'flex' : 'none';
+                    
+                    if (isMatch) {
+                        visibleCardsInSection++;
+                    }
+                });
+
+                if (visibleCardsInSection > 0) {
+                    section.style.display = 'block';
+                    totalVisibleItems += visibleCardsInSection;
+                } else {
+                    section.style.display = 'none';
                 }
             });
 
-            if (visibleCardsInSection > 0) {
-                section.style.display = '';
-                totalVisibleItems += visibleCardsInSection;
-            } else {
-                section.style.display = 'none';
-            }
-        });
+            noResultsMessage.style.display = (totalVisibleItems === 0) ? 'block' : 'none';
 
-        noResultsMessage.style.display = (totalVisibleItems === 0 && searchTerm !== '') ? 'block' : 'none';
+        } else {
+            noResultsMessage.style.display = 'none';
+
+            allSections.forEach(section => {
+                section.style.display = 'block';
+                const grid = section.querySelector('.grid');
+                const items = Array.from(grid.querySelectorAll('.item-card'));
+                const showMoreContainer = section.querySelector('.show-more-container');
+
+                if (items.length > INITIAL_ITEMS_TO_SHOW) {
+                    if (section.dataset.expanded === 'true') {
+                        items.forEach(item => item.style.display = 'flex');
+                        if (showMoreContainer) showMoreContainer.style.display = 'none';
+                    } else {
+                        items.forEach((item, index) => {
+                            item.style.display = (index < INITIAL_ITEMS_TO_SHOW) ? 'flex' : 'none';
+                        });
+                        if (showMoreContainer) showMoreContainer.style.display = 'block';
+                    }
+                } else {
+                    items.forEach(item => item.style.display = 'flex');
+                }
+            });
+        }
     });
-
+ 
     const searchContainer = document.getElementById('search-container');
     if(searchContainer) {
         const stickyThreshold = searchContainer.offsetTop; 
