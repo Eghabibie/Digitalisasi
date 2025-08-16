@@ -42,11 +42,11 @@
 </head>
 <body class="bg-[var(--bg-primary)] text-[var(--text-primary)]">
 
-<div class="container mx-auto p-4 md:p-8 max-w-7xl">
+<div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-7xl">
     
     <header class="mb-8 text-center pt-4 md:pt-8">
-        <h1 class="text-3xl md:text-4xl font-bold text-[var(--text-primary)]">Katalog Barang Laboratorium</h1>
-        <p class="text-base md:text-lg text-[var(--text-secondary)] mt-2">Pilih barang yang ingin Anda pinjam.</p>
+        <h1 class="text-3xl sm:text-4xl font-bold text-[var(--text-primary)]">Katalog Barang Laboratorium</h1>
+        <p class="text-base sm:text-lg text-[var(--text-secondary)] mt-2">Pilih barang yang ingin Anda pinjam.</p>
     </header>
 
     <div id="search-container" class="search-bar-container sticky top-0 z-30 mb-8 transition-all duration-300 ease-in-out">
@@ -61,19 +61,11 @@
         </div>
     </div>
 
-    @if (session('success'))
-        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-md shadow" role="alert"><p>{{ session('success') }}</p></div>
-    @endif
-    @if ($errors->any())
-        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-md shadow" role="alert">
-            <p class="font-bold">Oops! Terjadi kesalahan:</p>
-            <ul class="mt-2 list-disc list-inside text-sm">@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>
-        </div>
-    @endif
+    {{-- Notifikasi statis dihapus dari sini, akan digantikan oleh SweetAlert2 di script --}}
 
     <div id="items-container">
         <section id="alat-lab" class="catalog-section">
-            <h2 class="text-xl md:text-2xl font-bold text-[var(--text-primary)] border-b-2 border-[var(--border-color)] pb-3 mb-6">Alat Laboratorium</h2>
+            <h2 class="text-2xl font-bold text-[var(--text-primary)] border-b-2 border-[var(--border-color)] pb-3 mb-6">Alat Laboratorium</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                 @foreach ($alats as $item)
                 <div class="item-card relative bg-[var(--bg-secondary)] rounded-lg shadow-md overflow-hidden transform transition-transform hover:scale-105 duration-300 flex flex-col">
@@ -86,11 +78,11 @@
                          @if(!empty($item->images))
                              <img src="{{ asset('storage/' . $item->images[0]) }}" alt="{{ $item->nama }}" class="w-full h-full object-cover">
                          @else
-                             <i class="fa-solid fa-flask fa-3x text-gray-400"></i>
+                             <i class="fa-solid fa-flask text-4xl text-gray-400"></i>
                          @endif
                     </div>
                     <div class="p-3 flex flex-col flex-grow">
-                        <h3 class="font-semibold text-base truncate item-name">{{ $item->nama }}</h3>
+                        <h3 class="font-semibold text-sm sm:text-base truncate item-name">{{ $item->nama }}</h3>
                         <p class="text-xs text-[var(--text-secondary)] mb-2">Stok: <span class="font-medium text-gray-800">{{ $item->stok }}</span> unit</p>
                         <button class="add-to-cart-btn mt-auto w-full bg-[var(--accent-primary)] text-white py-2 px-3 rounded-md font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" data-id="Alat-{{ $item->id }}" data-nama="{{ $item->nama }}" data-stok="{{ $item->stok }}" data-unit="unit" data-tipe="Alat" @if($item->stok <= 0) disabled @endif>
                             <i class="fa-solid fa-plus mr-1"></i> Tambah
@@ -108,7 +100,7 @@
         </section>
 
         <section id="bahan-padat" class="catalog-section mt-10 md:mt-12">
-            <h2 class="text-xl md:text-2xl font-bold text-[var(--text-primary)] border-b-2 border-[var(--border-color)] pb-3 mb-6">Bahan Padat</h2>
+            <h2 class="text-2xl font-bold text-[var(--text-primary)] border-b-2 border-[var(--border-color)] pb-3 mb-6">Bahan Padat</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                 @foreach ($bahan_padats as $item)
                 <div class="item-card relative bg-[var(--bg-secondary)] rounded-lg shadow-md overflow-hidden transform transition-transform hover:scale-105 duration-300 flex flex-col">
@@ -122,12 +114,12 @@
                             @if(!empty($item->rumus_kimia))
                                 {{ $item->rumus_kimia }}
                             @else
-                                <i class="fa-solid fa-cubes text-gray-400"></i>
+                                <i class="fa-solid fa-cubes text-4xl text-gray-400"></i>
                             @endif
                         </div>
                     </div>
                     <div class="p-3 flex flex-col flex-grow">
-                        <h3 class="font-semibold text-base truncate item-name">{{ $item->nama }}</h3>
+                        <h3 class="font-semibold text-sm sm:text-base truncate item-name">{{ $item->nama }}</h3>
                         <p class="text-xs text-[var(--text-secondary)] mb-2">Sisa: <span class="font-medium text-gray-800">{{ $item->sisa_bahan }}</span> {{ $item->unit }}</p>
                         <button class="add-to-cart-btn mt-auto w-full bg-[var(--accent-primary)] text-white py-2 px-3 rounded-md font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" data-id="BahanPadat-{{ $item->id }}" data-nama="{{ $item->nama }}" data-stok="{{ $item->sisa_bahan }}" data-unit="{{ $item->unit }}" data-tipe="BahanPadat" @if($item->sisa_bahan <= 0) disabled @endif>
                             <i class="fa-solid fa-plus mr-1"></i> Tambah
@@ -145,7 +137,7 @@
         </section>
 
         <section id="bahan-cair" class="catalog-section mt-10 md:mt-12">
-            <h2 class="text-xl md:text-2xl font-bold text-[var(--text-primary)] border-b-2 border-[var(--border-color)] pb-3 mb-6">Bahan Cair</h2>
+            <h2 class="text-2xl font-bold text-[var(--text-primary)] border-b-2 border-[var(--border-color)] pb-3 mb-6">Bahan Cair</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                  @foreach ($bahan_cairan_lamas as $item)
                  <div class="item-card relative bg-[var(--bg-secondary)] rounded-lg shadow-md overflow-hidden transform transition-transform hover:scale-105 duration-300 flex flex-col">
@@ -156,11 +148,11 @@
                       @endif
                       <div class="h-36 md:h-48 p-2 md:p-4">
                           <div class="formula-display text-2xl md:text-4xl">
-                               {!! !empty($item->rumus_kimia) ? $item->rumus_kimia : '<i class="fa-solid fa-vial text-gray-400"></i>' !!}
+                               {!! !empty($item->rumus_kimia) ? $item->rumus_kimia : '<i class="fa-solid fa-vial text-4xl text-gray-400"></i>' !!}
                           </div>
                       </div>
                       <div class="p-3 flex flex-col flex-grow">
-                          <h3 class="font-semibold text-base truncate item-name">{{ $item->nama }}</h3>
+                          <h3 class="font-semibold text-sm sm:text-base truncate item-name">{{ $item->nama }}</h3>
                           <p class="text-xs text-[var(--text-secondary)] mb-2">Sisa: <span class="font-medium text-gray-800">{{ $item->sisa_bahan }}</span> {{ $item->unit }}</p>
                           <button class="add-to-cart-btn mt-auto w-full bg-[var(--accent-primary)] text-white py-2 px-3 rounded-md font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" data-id="BahanCairanLama-{{ $item->id }}" data-nama="{{ $item->nama }}" data-stok="{{ $item->sisa_bahan }}" data-unit="{{ $item->unit }}" data-tipe="BahanCairanLama" @if($item->sisa_bahan <= 0) disabled @endif>
                               <i class="fa-solid fa-plus mr-1"></i> Tambah
@@ -192,7 +184,7 @@
 
 <div id="cart-modal-overlay" class="fixed inset-0 bg-black bg-opacity-60 z-40 hidden">
     <div id="cart-modal" class="modal-enter fixed inset-0 flex items-center justify-center p-4">
-        <form id="loan-form" action="{{ route('pinjam.store') }}" method="POST" class="bg-[var(--bg-secondary)] rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
+        <form id="loan-form" action="{{ route('pinjam.store') }}" method="POST" class="bg-[var(--bg-secondary)] rounded-xl shadow-2xl w-full sm:max-w-lg max-h-[90vh] flex flex-col">
             @csrf
             <div class="flex justify-between items-center p-4 md:p-5 border-b border-[var(--border-color)]">
                 <h2 class="text-xl md:text-2xl font-bold">Daftar Peminjaman</h2>
@@ -217,10 +209,21 @@
                             <label for="nim_peminjam" class="block text-sm font-medium text-gray-700">NIM <span class="text-red-500">*</span></label>
                             <input type="text" id="nim_peminjam" name="nim_peminjam" required value="{{ old('nim_peminjam') }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--accent-primary)] focus:border-[var(--accent-primary)] sm:text-sm">
                         </div>
+                        
                         <div class="md:col-span-2">
-                            <label for="no_hp" class="block text-sm font-medium text-gray-700">Nomor HP Aktif <span class="text-red-500">*</span></label>
-                            <input type="tel" id="no_hp" name="no_hp" required value="{{ old('no_hp') }}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--accent-primary)] focus:border-[var(--accent-primary)] sm:text-sm">
+                            <label for="no_hp_input" class="block text-sm font-medium text-gray-700">Nomor HP Aktif <span class="text-red-500">*</span></label>
+                            <div class="relative mt-1 rounded-md shadow-sm">
+                                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                    <span class="text-gray-500 sm:text-sm">+62</span>
+                                </div>
+                                <input type="tel" id="no_hp_input" required pattern="[0-9\s-]*" 
+                                       class="block w-full rounded-md border-gray-300 pl-12 pr-3 py-2 focus:border-[var(--accent-primary)] focus:ring-[var(--accent-primary)] sm:text-sm" 
+                                       placeholder="812 3456 7890" 
+                                       value="{{ old('no_hp') ? substr(old('no_hp'), 3) : '' }}">
+                            </div>
                         </div>
+                        <input type="hidden" id="no_hp" name="no_hp">
+
                     </div>
                 </div>
                 <div id="hidden-inputs-for-cart"></div>
@@ -379,11 +382,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     mainForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const nama = document.getElementById('nama_peminjam').value, nim = document.getElementById('nim_peminjam').value, no_hp = document.getElementById('no_hp').value;
-        if (!nama || !nim || !no_hp) {
+
+        const noHpInput = document.getElementById('no_hp_input');
+        const hiddenNoHp = document.getElementById('no_hp');
+        const sanitizedNumber = noHpInput.value.replace(/[^0-9]/g, '');
+        hiddenNoHp.value = '+62' + sanitizedNumber;
+
+        const nama = document.getElementById('nama_peminjam').value;
+        const nim = document.getElementById('nim_peminjam').value;
+
+        if (!nama || !nim || !noHpInput.value) {
             Swal.fire('Data Tidak Lengkap', 'Mohon isi semua data diri peminjam.', 'warning');
             return;
         }
+        
         hiddenInputsContainer.innerHTML = '';
         Object.values(loanList).forEach((item, index) => {
             const [type, id] = item.id.split('-');
@@ -393,6 +405,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <input type="hidden" name="items[${index}][jumlah_pinjam]" value="${item.quantity}">
             `;
         });
+
         Swal.fire({
             title: 'Konfirmasi Peminjaman',
             text: `Anda akan mengajukan peminjaman untuk ${Object.keys(loanList).length} jenis barang. Lanjutkan?`,
@@ -402,11 +415,16 @@ document.addEventListener('DOMContentLoaded', function() {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Ya, Lanjutkan!',
             cancelButtonText: 'Batal'
-        }).then((result) => { if (result.isConfirmed) mainForm.submit(); });
+        }).then((result) => { 
+            if (result.isConfirmed) {
+                mainForm.submit(); 
+            }
+        });
     });
-    @if ($errors->any())
+    
+    if ("{{ $errors->any() }}") {
         toggleModal(true);
-    @endif
+    }
     
     const searchInput = document.getElementById('searchInput');
     const allSections = document.querySelectorAll('.catalog-section');
@@ -515,6 +533,38 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     renderList();
+
+    @if (session('success'))
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: '{{ session('success') }}',
+            showConfirmButton: false,
+            timer: 3500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+    @endif
+
+    @if ($errors->any())
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'error',
+            title: '{{ $errors->first() }}',
+            showConfirmButton: false,
+            timer: 5000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+    @endif
 });
 </script>
 </body>

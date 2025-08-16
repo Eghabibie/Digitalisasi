@@ -26,12 +26,26 @@ class PinjamController extends Controller
         $validatedData = $request->validate([
             'nama_peminjam' => 'required|string|max:255',
             'nim_peminjam'  => 'required|string|max:255',
-            'no_hp'         => 'required|string|max:20',
+            'no_hp'         => ['required', 'string', 'regex:/^\+62[0-9]{9,15}$/'],
             'items'         => 'required|array|min:1',
             'items.*.item_id'       => 'required|integer',
             'items.*.item_type'     => 'required|string',
             'items.*.jumlah_pinjam' => 'required|numeric|min:0.01',
+        ], [
+            'no_hp.regex' => 'Format Nomor HP tidak valid. Harap masukkan nomor yang benar (contoh: 81234567890).',
         ]);
+
+        $nim = $validatedData['nim_peminjam'];
+
+        $peminjamanAktif = Peminjaman::where('nim_peminjam', $nim)
+            ->whereNotIn('status', ['Dikembalikan', 'Ditolak'])
+            ->exists();
+
+        if ($peminjamanAktif) {
+            return redirect()->back()
+                ->withErrors(['peminjaman_aktif' => 'Anda tidak dapat meminjam karena masih ada peminjaman yang belum dikembalikan.'])
+                ->withInput();
+        }
 
         DB::transaction(function () use ($validatedData, $request) {
             $allowedModels = [
@@ -64,7 +78,7 @@ class PinjamController extends Controller
                 Peminjaman::create([
                     'nama_peminjam' => $request->nama_peminjam,
                     'nim_peminjam' => $request->nim_peminjam,
-                    'no_hp' => $request->no_hp,
+                    'no_hp' => $validatedData['no_hp'],
                     'peminjamable_id' => $itemData['item_id'],
                     'peminjamable_type' => $modelClass,
                     'jumlah' => $jumlah_pinjam,

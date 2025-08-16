@@ -102,7 +102,7 @@ class PeminjamanResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->poll('10s');
+            ->poll('5s');
     }
 
     public static function getRelations(): array
