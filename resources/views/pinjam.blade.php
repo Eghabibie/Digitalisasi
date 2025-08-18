@@ -87,7 +87,10 @@
                     </div>
                     <div class="p-3 flex flex-col flex-grow">
                         <h3 class="font-semibold text-sm sm:text-base truncate item-name">{{ $item->nama }}</h3>
-                        <p class="text-xs text-[var(--text-secondary)] mb-2">Stok: <span class="font-medium text-gray-800">{{ $item->stok }}</span> unit</p>
+                        {{-- START: Perubahan Layout Stok & Kondisi --}}
+                        <p class="text-xs text-[var(--text-secondary)]">Stok: <span class="font-medium text-gray-800">{{ $item->stok }}</span> unit</p>
+                        <p class="text-xs text-[var(--text-secondary)] mb-2">Kondisi: <span class="font-medium text-gray-800">{{ $item->kondisi ?? 'N/A' }}</span></p>
+                        {{-- END: Perubahan Layout Stok & Kondisi --}}
                         <button class="add-to-cart-btn mt-auto w-full bg-[var(--accent-primary)] text-white py-2 px-3 rounded-md font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" data-id="Alat-{{ $item->id }}" data-nama="{{ $item->nama }}" data-stok="{{ $item->stok }}" data-unit="unit" data-tipe="Alat" @if($item->stok <= 0) disabled @endif>
                             <i class="fa-solid fa-plus mr-1"></i> Tambah
                         </button>
@@ -124,7 +127,8 @@
                     </div>
                     <div class="p-3 flex flex-col flex-grow">
                         <h3 class="font-semibold text-sm sm:text-base truncate item-name">{{ $item->nama }}</h3>
-                        <p class="text-xs text-[var(--text-secondary)] mb-2">Sisa: <span class="font-medium text-gray-800">{{ $item->sisa_bahan }}</span> {{ $item->unit }}</p>
+                        <p class="text-xs text-[var(--text-secondary)]">Sisa: <span class="font-medium text-gray-800">{{ $item->sisa_bahan }}</span> {{ $item->unit }}</p>
+                        <p class="text-xs text-[var(--text-secondary)] mb-2">Kedaluwarsa: <span class="font-medium text-gray-800">{{ $item->expired ? \Carbon\Carbon::parse($item->expired)->format('d M Y') : 'N/A' }}</span></p>
                         <button class="add-to-cart-btn mt-auto w-full bg-[var(--accent-primary)] text-white py-2 px-3 rounded-md font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" data-id="BahanPadat-{{ $item->id }}" data-nama="{{ $item->nama }}" data-stok="{{ $item->sisa_bahan }}" data-unit="{{ $item->unit }}" data-tipe="BahanPadat" @if($item->sisa_bahan <= 0) disabled @endif>
                             <i class="fa-solid fa-plus mr-1"></i> Tambah
                         </button>
@@ -157,7 +161,8 @@
                       </div>
                       <div class="p-3 flex flex-col flex-grow">
                           <h3 class="font-semibold text-sm sm:text-base truncate item-name">{{ $item->nama }}</h3>
-                          <p class="text-xs text-[var(--text-secondary)] mb-2">Sisa: <span class="font-medium text-gray-800">{{ $item->sisa_bahan }}</span> {{ $item->unit }}</p>
+                          <p class="text-xs text-[var(--text-secondary)]">Sisa: <span class="font-medium text-gray-800">{{ $item->sisa_bahan }}</span> {{ $item->unit }}</p>
+                          <p class="text-xs text-[var(--text-secondary)] mb-2">Kedaluwarsa: <span class="font-medium text-gray-800">{{ $item->expired ? \Carbon\Carbon::parse($item->expired)->format('d M Y') : 'N/A' }}</span></p>
                           <button class="add-to-cart-btn mt-auto w-full bg-[var(--accent-primary)] text-white py-2 px-3 rounded-md font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" data-id="BahanCairanLama-{{ $item->id }}" data-nama="{{ $item->nama }}" data-stok="{{ $item->sisa_bahan }}" data-unit="{{ $item->unit }}" data-tipe="BahanCairanLama" @if($item->sisa_bahan <= 0) disabled @endif>
                               <i class="fa-solid fa-plus mr-1"></i> Tambah
                           </button>

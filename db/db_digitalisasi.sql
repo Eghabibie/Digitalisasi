@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 15, 2025 at 04:09 PM
+-- Generation Time: Aug 18, 2025 at 02:48 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.2.29
 
@@ -45,9 +45,9 @@ CREATE TABLE `alats` (
 --
 
 INSERT INTO `alats` (`id`, `nama`, `images`, `volume`, `kondisi`, `stok`, `merek`, `tahun_pengadaan`, `created_at`, `updated_at`) VALUES
-(3, 'wdadw', '[\"alat-images\\/01K2FE2X7PKXSVCBT738CE47W8.png\"]', 'fesffs', 'Rusak Ringan', 4, '-', '-', '2025-08-06 03:36:07', '2025-08-15 08:34:39'),
-(4, 'AE 86 TUreno', '[\"alat-images\\/01K2FE5X71VEK55PDKQHKEVTXB.png\"]', '250ml', 'Baik', 5, 'TOYOTA', '1985', '2025-08-07 19:20:12', '2025-08-12 08:25:30'),
-(5, 'blue eyes white dragon', '[\"alat-images\\/01K2FE6FGDHYQE7D7GSNKSY1ES.png\"]', '250ml', 'Rusak Berat', 5, 'Yu-Gi-Oh!', '1996', '2025-08-07 19:23:36', '2025-08-12 08:27:01');
+(3, 'wdadw', '[\"alat-images\\/01K2FE2X7PKXSVCBT738CE47W8.png\"]', 'fesffs', 'Rusak Ringan', 4, '-', '-', '2025-08-06 03:36:07', '2025-08-18 07:24:29'),
+(4, 'AE 86 TUreno', '[\"alat-images\\/01K2FE5X71VEK55PDKQHKEVTXB.png\"]', '250ml', 'Baik', 4, 'TOYOTA', '1985', '2025-08-07 19:20:12', '2025-08-18 06:56:19'),
+(5, 'blue eyes white dragon', '[\"alat-images\\/01K2FE6FGDHYQE7D7GSNKSY1ES.png\"]', '250ml', 'Rusak Berat', 5, 'Yu-Gi-Oh!', '1996', '2025-08-07 19:23:36', '2025-08-18 06:58:00');
 
 -- --------------------------------------------------------
 
@@ -84,7 +84,7 @@ INSERT INTO `bahan_cairan_lamas` (`id`, `nama`, `rumus_kimia`, `sisa_bahan`, `un
 (84, 'Ammonia', 'NH3', '100.00', 'mL', '7664-41-7', '-', '-', '2020', '2025-08-30', '-', NULL, '2025-08-07 18:16:24'),
 (85, 'Ammonium Hidroksida', 'NH4OH', '400.00', 'ml', '1336-21-6', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (86, 'Aseton', 'C3H6O', '250.00', 'ml', '67-64-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(87, 'Butanol', 'C4H10O', '500.00', 'ml', '71-36-3', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(87, 'Butanol', 'C4H10O', '500.00', 'ml', '71-36-3', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 06:35:22'),
 (88, 'Benzil Alkohol', 'C7H8O', '500.00', 'ml', '100-51-6', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (89, 'Benedit', '', '0.00', 'ml', '63126-89-6', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (90, 'Diklorometana', 'CH2CL2', '0.00', 'ml', '200-838-9', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -112,7 +112,7 @@ INSERT INTO `bahan_cairan_lamas` (`id`, `nama`, `rumus_kimia`, `sisa_bahan`, `un
 CREATE TABLE `bahan_padats` (
   `id` bigint UNSIGNED NOT NULL,
   `nama` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `rumus_kimia` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `rumus_kimia` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `sisa_bahan` decimal(8,2) DEFAULT NULL,
   `unit` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `nomor_cas` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -130,7 +130,137 @@ CREATE TABLE `bahan_padats` (
 --
 
 INSERT INTO `bahan_padats` (`id`, `nama`, `rumus_kimia`, `sisa_bahan`, `unit`, `nomor_cas`, `letak`, `pemilik`, `tahun_pengadaan`, `expired`, `merek`, `created_at`, `updated_at`) VALUES
-(2, 'Amonium Klorida', 'NH4Cl', '800.00', 'g', '7664-93-9', 'adwad', '-', '2200', '2025-07-16', 'wadwad', '2025-08-07 18:08:03', '2025-08-15 08:34:43');
+(165, 'Aluminium Klorida', 'AlCl3', '980.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(166, 'Amonium', 'NH3', '500.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(167, 'Amonium Asetat', 'C6H10O5', '250.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(168, 'Amonium Karbonat', '(NH4)2CO3', '0.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(169, 'Amonium Klorida', 'NH4Cl', '1000.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(170, 'Amonium Nitrat', 'NH4NO3', '500.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(171, 'Ammonium Oksalat', '(NH4)2C2O4', '100.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(172, 'Asam Benzoat', 'C6H5COOH', '450.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(173, 'Asam Oksalat', 'C2H2O4', '400.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(174, 'Asam salisilat', 'C7H6O3', '50.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(175, 'Asam Sitrat', 'C6H8O7', '125.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(176, 'Barium Hidroksida', 'Ba(OH)2', '100.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(177, 'Barium Klorida', 'BaCl2', '400.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(178, 'Barium Nitrat', 'Ba(NO3)2', '300.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(179, 'Barium Sulfat', 'BaSO4', '500.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(180, 'Bentonit', 'Al2O3.4SiO2.H2O', '4000.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(181, 'Besi (II) Klorida', 'FeCl2', '230.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(182, 'Besi (III) Klorida', 'FeCl3', '1400.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(183, 'Besi (III) Nitrat', 'Fe(NO3)3', '230.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(184, 'Bismut (III) Nitrat', 'Bi (NO3)2', '8.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(185, 'Dinatrium Hydrogen Fosfat', 'Na2HPO4', '100.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(186, 'Eriochrome Black T', 'C20H12N3O7SNa', '2.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(187, 'Ferro Ammonium Sulfat', '(NH4)2Fe(SO4)2', '125.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(188, 'Glukosa', 'C6H12O6', '1000.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(189, 'Indikator PP', 'C20H14O4', '150.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(190, 'Iodium/Iodine', 'I2', '75.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(191, 'Kalium Bromat', 'K2SO4', '125.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(192, 'Kalium Bromida', 'KBr', '1000.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(193, 'Kalium Dikromat', 'K2Cr2O7', '1000.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(194, 'Kalium Hidroksida', 'KOH', '20.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(195, 'Kalium Iodida', 'KI', '700.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(196, 'Kalium Heksasianoferat', 'K3Fe(CN)6', '25.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(197, 'Kalium Klorida', 'KCl', '200.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(198, 'Kalium Kromat', 'K2CrO4', '200.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(199, 'Kalium Natrium Tartarat/garam rochelle', 'KNaC4H4O6·4H2O', '50.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(200, 'Kalium Permanganat', 'KMnO4', '200.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(201, 'Kalium Tiosianat', 'KSCN', '50.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(202, 'Kalsium karbonat', 'CaCO3', '250.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(203, 'Kalsium Klorida Anhidrat', 'CaCl2', '80.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(204, 'Kalsium Nitrat', 'Ca(NO3)2', '80.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(205, 'Kapur', 'CaO', '400.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(206, 'kobalt (II) Nitrat', 'Co(NO3)2', '10.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(207, 'Kobalt (II) klorida', 'CoCl2', '30.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(208, 'Magnesium serbuk', 'Mg', '400.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(209, 'Magnesium Nitrat', 'Mg(NO3)2', '125.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(210, 'Magnesium Sulfat', 'MgSO4', '10.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(211, 'Mangan diKlorida', 'MnCl2', '10.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(212, 'Mangan Oksida', 'MnO2', '5.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(213, 'Mercury (II) Klorida', 'HgCl2', '30.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(214, 'Natrium Asetat', 'CH3COONa', '200.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:40:20', '2025-08-16 16:40:20'),
+(215, 'Aluminium Klorida', 'AlCl3', '980.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(216, 'Amonium', 'NH3', '500.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(217, 'Amonium Asetat', 'C6H10O5', '250.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(218, 'Amonium Karbonat', '(NH4)2CO3', '0.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(219, 'Amonium Klorida', 'NH4Cl', '1000.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(220, 'Amonium Nitrat', 'NH4NO3', '500.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(221, 'Ammonium Oksalat', '(NH4)2C2O4', '100.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(222, 'Arang Aktif', 'C', '860.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(223, 'Asam Benzoat', 'C6H5COOH', '450.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(224, 'Asam Oksalat', 'C2H2O4', '400.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(225, 'Asam salisilat', 'C7H6O3', '50.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(226, 'Asam Sitrat', 'C6H8O7', '125.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(227, 'Barium Hidroksida', 'Ba(OH)2', '100.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(228, 'Barium Klorida', 'BaCl2', '400.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(229, 'Barium Nitrat', 'Ba(NO3)2', '300.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(230, 'Barium Sulfat', 'BaSO4', '500.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(231, 'Bentonit', 'Al2O3.4SiO2.H2O', '4000.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(232, 'Besi (II) Klorida', 'FeCl2', '230.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(233, 'Besi (III) Klorida', 'FeCl3', '1400.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(234, 'Besi (III) Nitrat', 'Fe(NO3)3', '230.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(235, 'Bismut (III) Nitrat', 'Bi (NO3)2', '8.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(236, 'Dinatrium Hydrogen Fosfat', 'Na2HPO4', '100.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(237, 'Eriochrome Black T', 'C20H12N3O7SNa', '2.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(238, 'Ferro Ammonium Sulfat', '(NH4)2Fe(SO4)2', '125.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(239, 'Glukosa', 'C6H12O6', '1000.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(240, 'Indikator PP', 'C20H14O4', '150.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(241, 'Iodium/Iodine', 'I2', '75.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(242, 'Kalium Bromat', 'K2SO4', '125.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(243, 'Kalium Bromida', 'KBr', '1000.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(244, 'Kalium Dikromat', 'K2Cr2O7', '1000.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(245, 'Kalium Hidroksida', 'KOH', '20.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(246, 'Kalium Iodida', 'KI', '700.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(247, 'Kalium Heksasianoferat', 'K3Fe(CN)6', '25.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(248, 'Kalium Klorida', 'KCl', '200.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(249, 'Kalium Kromat', 'K2CrO4', '200.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(250, 'Kalium Natrium Tartarat/garam rochelle', 'KNaC4H4O6·4H2O', '50.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(251, 'Kalium Permanganat', 'KMnO4', '200.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(252, 'Kalium Tiosianat', 'KSCN', '50.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(253, 'Kalsium karbonat', 'CaCO3', '250.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(254, 'Kalsium Klorida Anhidrat', 'CaCl2', '80.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(255, 'Kalsium Nitrat', 'Ca(NO3)2', '80.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(256, 'Kapur', 'CaO', '400.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(257, 'kobalt (II) Nitrat', 'Co(NO3)2', '10.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(258, 'Kobalt (II) klorida', 'CoCl2', '30.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(259, 'Magnesium serbuk', 'Mg', '400.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(260, 'Magnesium Nitrat', 'Mg(NO3)2', '125.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(261, 'Magnesium Sulfat', 'MgSO4', '10.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(262, 'Mangan diKlorida', 'MnCl2', '10.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(263, 'Mangan Oksida', 'MnO2', '5.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(264, 'Mercury (II) Klorida', 'HgCl2', '30.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(265, 'Natrium Asetat', 'CH3COONa', '200.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(266, 'Natrium bikarbonat', 'NaHCO3', '200.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(267, 'Natrium Hidroksida', 'NaOH', '1000.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(268, 'Natrium Karbonat', 'Na2CO3', '200.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(269, 'Natrium Klorida', 'NaCl', '0.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(270, 'Natrium Nitrat', 'NaNO3', '100.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(271, 'Natrium Nitrit', 'NaNO2', '300.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(272, 'Natrium Oksalat', 'Na2C2O4', '50.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(273, 'Natrium Sulfat', 'Na2SO4', '850.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(274, 'Natrium Sulfida', 'Na2S', '230.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(275, 'Natrium Thiosulfat', 'Na2S2O3', '50.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(276, 'Nikel (II) Sulfat Heksahidrat', 'NiSO4. 6H2O', '20.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(277, 'Nutrient Agar', '', '0.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(278, 'Nutrient Broth', '', '0.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(279, 'Peptone Water', '', '0.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(280, 'Resorsinol', 'C6H4(OH)2', '25.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(281, 'serbuk Alumunium', 'Al', '50.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(282, 'Silver Nitrat (perak Nitrat)', 'AgNO3', '0.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(283, 'Spirosa/ Kalium Dihidrogen Phosphat', 'NaH2PO4', '125.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(284, 'Sukrosa', 'C12H22O11', '1000.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(285, 'Tembaga (II) Oksida', 'CuO', '70.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(286, 'Tembaga (II) sulfat', 'CuSO4', '425.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(287, 'Tembaga Nitrat', 'Cu(NO3)2', '100.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(288, 'Tembaga serbuk', 'Cu', '200.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(289, 'Timah Klorida', 'SnCl4', '100.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(290, 'Timbal (II) Asetat', 'Pb(CH3COO)2', '100.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(291, 'Timbal (II) Nitrat', 'Pb(NO3)2', '200.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(292, 'Titriplex (EDTA)', '10H14N2Na2O8.2H2O', '25.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(293, 'Zink Nitrat', 'Zn(NO3)2', '50.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(294, 'Zink serbuk', 'Zn', '125.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49'),
+(295, 'Zink Sulfat', 'ZSO4', '200.00', 'g', NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-16 16:41:49', '2025-08-16 16:41:49');
 
 -- --------------------------------------------------------
 
@@ -149,12 +279,12 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('laravel_cache_356a192b7913b04c54574d18c28d46e6395428ab', 'i:2;', 1755012388),
-('laravel_cache_356a192b7913b04c54574d18c28d46e6395428ab:timer', 'i:1755012388;', 1755012388),
+('laravel_cache_356a192b7913b04c54574d18c28d46e6395428ab', 'i:1;', 1755526983),
+('laravel_cache_356a192b7913b04c54574d18c28d46e6395428ab:timer', 'i:1755526983;', 1755526983),
 ('laravel_cache_5c785c036466adea360111aa28563bfd556b5fba', 'i:1;', 1755271932),
 ('laravel_cache_5c785c036466adea360111aa28563bfd556b5fba:timer', 'i:1755271932;', 1755271932),
-('laravel_cache_livewire-rate-limiter:a17961fa74e9275d529f489537f179c05d50c2f3', 'i:1;', 1755271939),
-('laravel_cache_livewire-rate-limiter:a17961fa74e9275d529f489537f179c05d50c2f3:timer', 'i:1755271939;', 1755271939);
+('laravel_cache_livewire-rate-limiter:a17961fa74e9275d529f489537f179c05d50c2f3', 'i:1;', 1755525215),
+('laravel_cache_livewire-rate-limiter:a17961fa74e9275d529f489537f179c05d50c2f3:timer', 'i:1755525215;', 1755525215);
 
 -- --------------------------------------------------------
 
@@ -291,10 +421,14 @@ CREATE TABLE `peminjamans` (
 --
 
 INSERT INTO `peminjamans` (`id`, `nama_peminjam`, `nim_peminjam`, `no_hp`, `peminjamable_type`, `peminjamable_id`, `jumlah`, `tanggal_pinjam`, `tanggal_kembali`, `status`, `created_at`, `updated_at`) VALUES
-(20, 'egi disa habibie', '12312321', '08122415151', 'App\\Models\\Alat', 4, 1, '2025-08-12', '2025-08-12', 'Dikembalikan', '2025-08-12 06:16:42', '2025-08-12 06:35:08'),
-(21, 'egi disa habibie', '12312321', '08122415151', 'App\\Models\\Alat', 5, 2, NULL, NULL, 'Ditolak', '2025-08-12 08:26:28', '2025-08-12 08:27:01'),
-(22, 'egi disa habibie', '12312321', '08122415151', 'App\\Models\\Alat', 3, 1, '2025-08-15', '2025-08-15', 'Dikembalikan', '2025-08-15 08:31:13', '2025-08-15 08:34:39'),
-(23, 'egi disa habibie', '12312321', '08122415151', 'App\\Models\\BahanPadat', 2, 400, '2025-08-15', '2025-08-15', 'Dikembalikan', '2025-08-15 08:31:14', '2025-08-15 08:34:43');
+(28, 'egi disa habibie', '220705026', '08122415151', 'App\\Models\\Alat', 3, 1, '2025-08-16', '2025-08-16', 'Dikembalikan', '2025-08-16 08:00:27', '2025-08-16 08:11:07'),
+(29, 'egi disa habibie', '12312321', '+6285371808389', 'App\\Models\\Alat', 3, 1, NULL, NULL, 'Ditolak', '2025-08-16 08:17:59', '2025-08-16 08:18:26'),
+(30, 'egi disa habibie', '12312321', '+6285371808389', 'App\\Models\\Alat', 5, 2, NULL, NULL, 'Ditolak', '2025-08-16 08:26:00', '2025-08-16 08:26:11'),
+(31, 'egi disa habibie', '220705026', '+6285371808389', 'App\\Models\\Alat', 3, 2, NULL, NULL, 'Ditolak', '2025-08-16 08:39:32', '2025-08-16 08:39:47'),
+(32, 'egi disa habibie', '12312321', '+6285371808389', 'App\\Models\\Alat', 3, 2, NULL, NULL, 'Ditolak', '2025-08-16 08:40:46', '2025-08-16 08:41:09'),
+(33, 'egi disa habibie', '220705026', '+6285371808389', 'App\\Models\\Alat', 4, 1, '2025-08-18', NULL, 'Disetujui', '2025-08-18 06:56:19', '2025-08-18 06:56:33'),
+(34, 'egi', '12312321', '+62888219492', 'App\\Models\\Alat', 5, 1, NULL, NULL, 'Ditolak', '2025-08-18 06:57:44', '2025-08-18 06:58:00'),
+(35, 'raisul amar', '12312321', '+62845693172', 'App\\Models\\Alat', 3, 1, NULL, NULL, 'Ditolak', '2025-08-18 07:22:03', '2025-08-18 07:24:29');
 
 -- --------------------------------------------------------
 
@@ -316,9 +450,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('BdZAEIpORVywrndUTB1SVtZV2ONT8QL901xNvBcW', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiQkFiYlJBVFZha3F0MVlCWWtTSFdYNHR2U25sQVZIdUtLSmcycnlWSSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1755176517),
-('ImChC6nisz4Skfzh5Z1yEHhik0CZzg2ETldOC5DH', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiTEx5dHg0RXJacWtRcHpqcjVlQ052WVZocUVwejZnRk9mZksyZ21QMiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MzoidXJsIjthOjA6e31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MTc6InBhc3N3b3JkX2hhc2hfd2ViIjtzOjYwOiIkMnkkMTIka3VwVmY2LlN3MHBTVFh3VlQxQ0oxZTVBelp6Mi8wZjlWR2JDWWFpLy5DQkpFRFk3VjdkLnEiO3M6ODoiZmlsYW1lbnQiO2E6MDp7fX0=', 1755012425),
-('S9ACFisunK79FgyN2VLt6W2tLUXIIV8GWHTRrK3z', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiRFByZmliSVVKaWtkOWNCV3Y2aE55Z0RYMDZOUmRtRERWNVFGRkYyQyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MzoidXJsIjthOjA6e31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MTc6InBhc3N3b3JkX2hhc2hfd2ViIjtzOjYwOiIkMnkkMTIka3VwVmY2LlN3MHBTVFh3VlQxQ0oxZTVBelp6Mi8wZjlWR2JDWWFpLy5DQkpFRFk3VjdkLnEiO30=', 1755274157);
+('SStOkcBd6LWZs2IdAqp7xSj3qE5rdmINNynGQafO', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiNnVRYVVodzFsM3ZqQnlsa1FKTHZJdjFsa3FvcXQxR1ZMTjB0bTRySiI7czozOiJ1cmwiO2E6MDp7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjM4OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYWRtaW4vQmFoYW5fQ2FpciI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjA6IiQyeSQxMiRrdXBWZjYuU3cwcFNUWHdWVDFDSjFlNUF6WnoyLzBmOVZHYkNZYWkvLkNCSkVEWTdWN2QucSI7fQ==', 1755528311),
+('Xw8BCW9rbFIYNOF6Jl9hHNbBiCObrEoCW8e2eAWR', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZllodnd1QWxwYkc3dGFwZEszMnRPQTgwbzlJZXhRbVV5aWxwdmh1OSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1755525067);
 
 -- --------------------------------------------------------
 
@@ -475,7 +608,7 @@ ALTER TABLE `bahan_cairan_lamas`
 -- AUTO_INCREMENT for table `bahan_padats`
 --
 ALTER TABLE `bahan_padats`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=296;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -499,7 +632,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `peminjamans`
 --
 ALTER TABLE `peminjamans`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `surat_bebas_labs`

@@ -70,7 +70,7 @@ class BahanPadatResource extends Resource
                                 ->label('Letak Penyimpanan')
                                 ->placeholder("Contoh: Lemari A, Rak 1"),
                             DatePicker::make('expired')
-                                ->label('Tanggal Kedaluwarsa')
+                                ->label('Tanggal kadaluarsa')
                                 ->required(),
                         ]),
                     ]),
@@ -106,6 +106,7 @@ class BahanPadatResource extends Resource
                     ->formatStateUsing(fn($state, $record) => "{$state} {$record->unit}")
                     ->sortable(),
                 TextColumn::make('expired')
+                    ->label('Tanggal kadaluarsa')
                     ->date('d M Y')
                     ->sortable()
                     ->color(
@@ -135,9 +136,9 @@ class BahanPadatResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

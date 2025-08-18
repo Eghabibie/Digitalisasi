@@ -23,6 +23,7 @@ class PinjamController extends Controller
 
     public function store(Request $request)
     {
+        // 1. Validasi input
         $validatedData = $request->validate([
             'nama_peminjam' => 'required|string|max:255',
             'nim_peminjam'  => 'required|string|max:255',
@@ -35,18 +36,29 @@ class PinjamController extends Controller
             'no_hp.regex' => 'Format Nomor HP tidak valid. Harap masukkan nomor yang benar (contoh: 81234567890).',
         ]);
 
+        // --- START: Logika Pengecekan Diperbarui ---
         $nim = $validatedData['nim_peminjam'];
+        $nama = $validatedData['nama_peminjam'];
+        $no_hp = $validatedData['no_hp'];
 
-        $peminjamanAktif = Peminjaman::where('nim_peminjam', $nim)
+        // Cek jika ada peminjaman aktif berdasarkan NIM, Nama, ATAU No. HP
+        $peminjamanAktif = Peminjaman::where(function ($query) use ($nim, $nama, $no_hp) {
+            $query->where('nim_peminjam', $nim)
+                ->orWhere('nama_peminjam', $nama)
+                ->orWhere('no_hp', $no_hp);
+        })
             ->whereNotIn('status', ['Dikembalikan', 'Ditolak'])
             ->exists();
 
+        // Jika ditemukan, hentikan proses
         if ($peminjamanAktif) {
             return redirect()->back()
-                ->withErrors(['peminjaman_aktif' => 'Anda tidak dapat meminjam karena masih ada peminjaman yang belum dikembalikan.'])
+                ->withErrors(['peminjaman_aktif' => 'Anda (atau data identik) terdeteksi masih memiliki peminjaman yang belum selesai.'])
                 ->withInput();
         }
+        // --- END: Logika Pengecekan Diperbarui ---
 
+        // 3. Proses transaksi database
         DB::transaction(function () use ($validatedData, $request) {
             $allowedModels = [
                 'Alat' => \App\Models\Alat::class,

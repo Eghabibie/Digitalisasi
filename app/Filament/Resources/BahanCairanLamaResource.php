@@ -68,7 +68,7 @@ class BahanCairanLamaResource extends Resource
                                 ->label('Letak Penyimpanan')
                                 ->placeholder("Contoh: Lemari B, Rak 2"),
                             DatePicker::make('expired')
-                                ->label('Tanggal Kedaluwarsa')
+                                ->label('Tanggal kadaluarsa')
                                 ->required(),
                         ]),
                     ]),
@@ -104,7 +104,7 @@ class BahanCairanLamaResource extends Resource
                     ->formatStateUsing(fn($state, $record) => "{$state} {$record->unit}")
                     ->sortable(),
                 TextColumn::make('expired')
-                    ->label('Kedaluwarsa')
+                    ->label('Tanggal kadaluarsa')
                     ->formatStateUsing(function (?string $state): string {
                         if (empty($state)) {
                             return '-';
@@ -156,9 +156,9 @@ class BahanCairanLamaResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
