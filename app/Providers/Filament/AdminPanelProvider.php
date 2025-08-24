@@ -17,7 +17,10 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-
+use App\Filament\Pages\Settings;
+use App\Filament\Resources\AlatResource;
+use App\Models\Alat;
+use Filament\Navigation\MenuItem;
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
@@ -62,6 +65,13 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ]) ->userMenuItems([
+            MenuItem::make()
+                ->label('Settings')
+                ->url(fn (): string => AlatResource::getUrl())
+                // ->url(url: '/AlatResource')
+                ->icon('heroicon-o-cog-6-tooth'),
+            // ...
+        ]);
     }
 }
