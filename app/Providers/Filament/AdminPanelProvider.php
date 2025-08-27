@@ -19,8 +19,14 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Pages\Settings;
 use App\Filament\Resources\AlatResource;
+use App\Filament\Resources\BahanCairanLamaResourceResource;
+use App\Filament\Resources\PeminjamanResourceResource;
+use App\Filament\Resources\BahanPadatResourceResourceResource;
 use App\Models\Alat;
+use App\Models\User;
+use App\Filament\Resources\UserResource;
 use Filament\Navigation\MenuItem;
+
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
@@ -45,7 +51,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                // Pages\Dashboard::class,
             ])
             // ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             // ->widgets([
@@ -65,13 +71,13 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]) ->userMenuItems([
-            MenuItem::make()
-                ->label('Settings')
-                ->url(fn (): string => AlatResource::getUrl())
-                // ->url(url: '/AlatResource')
-                ->icon('heroicon-o-cog-6-tooth'),
-            // ...
-        ]);
+            ])->userMenuItems([
+                MenuItem::make()
+                    ->label('User Settings')
+                    ->url(fn(): string => UserResource::getUrl())
+                    // ->url(url: '/AlatResource')
+                    ->icon('heroicon-o-cog-6-tooth'),
+                // ...
+            ]);
     }
 }
