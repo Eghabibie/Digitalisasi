@@ -37,7 +37,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->brandLogoHeight('3rem')
-            ->favicon(asset('images/Uin.png'))
+            ->favicon(asset('images/favicon.ico'))
             // ->brandLogo(asset('images/UIn2.png'))
             //  ->brandLogoHeight('10rem')
             ->brandName('Prodi Kimia')
