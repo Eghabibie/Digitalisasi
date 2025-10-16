@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Peminjaman Barang Laboratorium</title>
     {{-- favicon --}}
-    <link rel="icon" type="image/png" sizes="32x32" href="https://asset.uin-ar-raniry.ac.id/img/favicon.png">
-    <link rel="shortcut icon" href="https://asset.uin-ar-raniry.ac.id/img/favicon.png">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
     {{-- akhir favicon --}}
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -576,5 +575,138 @@ document.addEventListener('DOMContentLoaded', function() {
     @endif
 });
 </script>
+{{-- <footer class="bg-[var(--bg-secondary)] border-t border-[var(--border-color)] mt-16 md:mt-24">
+    <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <div class="md:col-span-1">
+                <h3 class="text-xl font-bold text-[var(--text-primary)]">
+                    Laboratorium Terpadu
+                </h3>
+                <p class="mt-4 text-[var(--text-secondary)] text-base pr-4">
+                    Pusat layanan praktikum, penelitian, dan pengembangan ilmu pengetahuan di lingkungan Fakultas Sains & Teknologi.
+                </p>
+                <div class="mt-6 flex space-x-4">
+                    <a href="#" target="_blank" class="text-gray-400 hover:text-[var(--accent-primary)] transition-colors" aria-label="Instagram">
+                        <i class="fa-brands fa-instagram fa-lg"></i>
+                    </a>
+                    <a href="#" target="_blank" class="text-gray-400 hover:text-[var(--accent-primary)] transition-colors" aria-label="Facebook">
+                        <i class="fa-brands fa-facebook fa-lg"></i>
+                    </a>
+                    <a href="#" target="_blank" class="text-gray-400 hover:text-[var(--accent-primary)] transition-colors" aria-label="YouTube">
+                        <i class="fa-brands fa-youtube fa-lg"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="font-semibold text-base text-[var(--text-primary)] tracking-wider">Tautan Terkait</h4>
+                <ul class="mt-4 space-y-3">
+                    <li><a href="https://ar-raniry.ac.id/" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">Website Utama UIN</a></li>
+                    <li><a href="https://fst.uin.ar-raniry.ac.id/" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">Fakultas Sains & Teknologi</a></li>
+                    <li><a href="#" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">Repositori Digital</a></li>
+                    <li><a href="#" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">Prosedur Peminjaman</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-semibold text-base text-[var(--text-primary)] tracking-wider">Kontak</h4>
+                <ul class="mt-4 space-y-3">
+                    <li class="flex items-start">
+                        <i class="fa-solid fa-map-marker-alt text-[var(--accent-primary)] mt-1 mr-3 flex-shrink-0"></i>
+                        <span class="text-[var(--text-secondary)]">Jl. Syeikh Abdul Rauf, Kopelma Darussalam, Banda Aceh</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fa-solid fa-envelope text-[var(--accent-primary)] mr-3 flex-shrink-0"></i>
+                        <a href="mailto:labterpadu@uin.ar-raniry.ac.id" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">labkimia@uin.ar-raniry.ac.id</a>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fa-solid fa-phone text-[var(--accent-primary)] mr-3 flex-shrink-0"></i>
+                        <a href="tel:+621234567890" class="text-[var(--text-secondary)] hover:text-[var(--accent-primary)] transition-colors">(+62) 123-456-7890</a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="mt-8 py-6 border-t border-[var(--border-color)]">
+            <div class="flex flex-col sm:flex-row justify-between items-center text-sm text-[var(--text-secondary)]">
+                <p class="text-center sm:text-left mb-2 sm:mb-0">
+                    &copy; 2025 <a href="https://uin.ar-raniry.ac.id/" target="_blank" rel="noopener noreferrer" class="font-medium hover:text-[var(--accent-primary)] transition-colors">Dev Tim Teknologi Informasi</a>. Hak Cipta Dilindungi.
+                </p>
+                <p class="text-center sm:text-right">
+                    Dibuat dengan <i class="fa-solid fa-heart text-red-500 mx-1"></i> oleh <a href="https://github.com/Eghabibie" target="_blank" class="font-semibold text-[var(--text-primary)] hover:text-[var(--accent-primary)] transition-colors">Bie</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer> --}}
+
+<footer class="bg-[var(--accent-primary)] mt-16 md:mt-24">
+    <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <div class="md:col-span-1">
+                <h3 class="text-xl font-bold text-white">
+                    Laboratorium Terpadu
+                </h3>
+                <p class="mt-4 text-indigo-100 text-base pr-4">
+                    Pusat layanan praktikum, penelitian, dan pengembangan ilmu pengetahuan di lingkungan Fakultas Sains & Teknologi.
+                </p>
+                <div class="mt-6 flex space-x-4">
+                    <a href="#" target="_blank" class="text-indigo-200 hover:text-white transition-colors" aria-label="Instagram">
+                        <i class="fa-brands fa-instagram fa-lg"></i>
+                    </a>
+                    <a href="#" target="_blank" class="text-indigo-200 hover:text-white transition-colors" aria-label="Facebook">
+                        <i class="fa-brands fa-facebook fa-lg"></i>
+                    </a>
+                    <a href="#" target="_blank" class="text-indigo-200 hover:text-white transition-colors" aria-label="YouTube">
+                        <i class="fa-brands fa-youtube fa-lg"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="font-semibold text-base text-white tracking-wider">Tautan Terkait</h4>
+                <ul class="mt-4 space-y-3">
+                    <li><a href="https://ar-raniry.ac.id/" class="text-indigo-100 hover:text-white transition-colors">Website Utama UIN</a></li>
+                    <li><a href="https://fst.uin.ar-raniry.ac.id/" class="text-indigo-100 hover:text-white transition-colors">Fakultas Sains & Teknologi</a></li>
+                    <li><a href="#" class="text-indigo-100 hover:text-white transition-colors">Repositori Digital</a></li>
+                    <li><a href="#" class="text-indigo-100 hover:text-white transition-colors">Prosedur Peminjaman</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-semibold text-base text-white tracking-wider">Kontak</h4>
+                <ul class="mt-4 space-y-3">
+                    <li class="flex items-start">
+                        <i class="fa-solid fa-map-marker-alt text-indigo-200 mt-1 mr-3 flex-shrink-0"></i>
+                        <span class="text-indigo-100">Jl. Syeikh Abdul Rauf, Kopelma Darussalam, Banda Aceh</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fa-solid fa-envelope text-indigo-200 mr-3 flex-shrink-0"></i>
+                        <a href="mailto:labterpadu@uin.ar-raniry.ac.id" class="text-indigo-100 hover:text-white transition-colors">labkimia@uin.ar-raniry.ac.id</a>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fa-solid fa-phone text-indigo-200 mr-3 flex-shrink-0"></i>
+                        <a href="tel:+621234567890" class="text-indigo-100 hover:text-white transition-colors">(+62) 123-456-7890</a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="mt-8 py-6 border-t border-indigo-500">
+            <div class="flex flex-col sm:flex-row justify-between items-center text-sm text-indigo-100">
+                <p class="text-center sm:text-left mb-2 sm:mb-0">
+                    &copy; 2025 <a href="https://portofolio-app-pied.vercel.app/" target="_blank" rel="noopener noreferrer" class="font-medium hover:text-white transition-colors"> </> Dev Teknologi Informasi</a>
+                </p>
+                <p class="text-center sm:text-right">
+                    Dibuat dengan <i class="fa-solid fa-heart text-red-300 mx-1"></i> oleh <a href="https://portofolio-app-pied.vercel.app/" target="_blank" class="font-semibold text-white hover:text-indigo-200 transition-colors">Bie</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 </html>
