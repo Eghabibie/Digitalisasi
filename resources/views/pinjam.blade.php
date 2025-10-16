@@ -50,6 +50,29 @@
     <header class="mb-8 text-center pt-4 md:pt-8">
         <h1 class="text-3xl sm:text-4xl font-bold text-[var(--text-primary)]">Katalog Barang Laboratorium</h1>
         <p class="text-base sm:text-lg text-[var(--text-secondary)] mt-2">Pilih barang yang ingin Anda pinjam.</p>
+        {{-- Sisipkan ini di dalam <div class="container ..."> sebelum <header> --}}
+<div class="absolute top-4 right-4 sm:top-6 sm:right-6 md:top-8 md:right-8 z-50">
+    {{-- ... DENGAN BLOK YANG LEBIH LENGKAP INI --}}
+@auth
+    <div class="flex items-center gap-3 bg-white pl-2 pr-3 py-2 rounded-full shadow-md">
+        {{-- Menampilkan foto profil dari Google --}}
+        <img src="{{ Auth::user()->avatar }}" 
+             alt="Foto Profil {{ Auth::user()->name }}" 
+             class="w-8 h-8 rounded-full border-2 border-gray-200">
+        
+        {{-- Menampilkan nama pengguna --}}
+        <span class="font-semibold text-sm hidden sm:inline">{{ Auth::user()->name }}</span>
+        
+        {{-- Form untuk logout --}}
+        <form action="{{ route('logout') }}" method="POST" class="flex items-center">
+            @csrf
+            <button type="submit" class="text-gray-400 hover:text-red-600 transition-colors" title="Logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
+        </form>
+    </div>
+@endauth
+</div>
     </header>
 
     <div id="search-container" class="search-bar-container sticky top-0 z-30 mb-8 transition-all duration-300 ease-in-out">
@@ -248,6 +271,9 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // =================================================================
+    // 1. DEKLARASI VARIABEL
+    // =================================================================
     const listButton = document.getElementById('cart-button');
     const listModalOverlay = document.getElementById('cart-modal-overlay');
     const listModal = document.getElementById('cart-modal');
@@ -259,12 +285,28 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalFooter = document.getElementById('modal-footer');
     const mainForm = document.getElementById('loan-form');
     const hiddenInputsContainer = document.getElementById('hidden-inputs-for-cart');
-    let loanList = {}; 
+    const searchInput = document.getElementById('searchInput');
+    const allSections = document.querySelectorAll('.catalog-section');
+    const noResultsMessage = document.getElementById('no-results-message');
+    const searchContainer = document.getElementById('search-container');
 
+    let loanList = {};
+    const INITIAL_ITEMS_TO_SHOW = 8;
+
+    // Variabel kunci untuk mengecek status login dari backend (Laravel)
+    const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
+
+    // =================================================================
+    // 2. FUNGSI-FUNGSI UTAMA
+    // =================================================================
+
+    /**
+     * Menampilkan atau menyembunyikan modal keranjang peminjaman.
+     */
     const toggleModal = (show) => {
         if (show) {
             listModalOverlay.classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; 
+            document.body.style.overflow = 'hidden';
             listModal.classList.remove('modal-leave');
             listModal.classList.add('modal-enter');
         } else {
@@ -272,15 +314,18 @@ document.addEventListener('DOMContentLoaded', function() {
             listModal.classList.add('modal-leave');
             setTimeout(() => {
                 listModalOverlay.classList.add('hidden');
-                document.body.style.overflow = ''; 
+                document.body.style.overflow = '';
             }, 300);
         }
     };
 
+    /**
+     * Merender ulang tampilan daftar barang di dalam modal.
+     */
     const renderList = () => {
         listItemsContainer.innerHTML = '';
         const items = Object.values(loanList);
-        
+
         if (items.length === 0) {
             listEmptyMessage.style.display = 'block';
             borrowerFormContainer.style.display = 'none';
@@ -289,12 +334,12 @@ document.addEventListener('DOMContentLoaded', function() {
             listEmptyMessage.style.display = 'none';
             borrowerFormContainer.style.display = 'block';
             modalFooter.style.display = 'block';
-            
+
             items.forEach(item => {
                 const itemElement = document.createElement('div');
                 itemElement.className = 'flex flex-wrap items-center justify-between gap-x-4 gap-y-2 py-3 border-b border-gray-200';
                 const step = item.tipe === 'Alat' ? '1' : '0.01';
-                
+
                 itemElement.innerHTML = `
                     <div class="flex-grow min-w-[120px]">
                         <p class="font-semibold text-gray-800">${item.nama}</p>
@@ -313,8 +358,26 @@ document.addEventListener('DOMContentLoaded', function() {
         listItemCount.textContent = items.length;
         listItemCount.style.display = items.length > 0 ? 'flex' : 'none';
     };
-    
+
+    /**
+     * Menambahkan item ke daftar pinjaman dengan pengecekan status login.
+     */
     const addItemToList = (button) => {
+        if (!isLoggedIn) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Login Diperlukan',
+                text: 'Anda harus login terlebih dahulu untuk dapat meminjam barang.',
+                confirmButtonText: 'Login dengan Google',
+                confirmButtonColor: '#4F46E5',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '{{ route("google.redirect") }}';
+                }
+            });
+            return; // Hentikan fungsi jika belum login
+        }
+
         const data = button.dataset;
         if (loanList[data.id]) {
             Swal.fire({ toast: true, position: 'top-end', icon: 'info', title: 'Barang sudah di daftar', showConfirmButton: false, timer: 1500 });
@@ -324,7 +387,10 @@ document.addEventListener('DOMContentLoaded', function() {
         renderList();
         Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Ditambahkan ke daftar', showConfirmButton: false, timer: 1500 });
     };
-    
+
+    /**
+     * Mengubah jumlah item di keranjang.
+     */
     const changeItemQuantity = (id, change) => {
         if (!loanList[id]) return;
         const item = loanList[id];
@@ -342,16 +408,32 @@ document.addEventListener('DOMContentLoaded', function() {
         renderList();
     };
 
+    /**
+     * Menghapus item dari keranjang.
+     */
     const removeItemFromList = (id) => {
         delete loanList[id];
         renderList();
     };
 
+    // =================================================================
+    // 3. EVENT LISTENERS & LOGIKA HALAMAN
+    // =================================================================
+
+    // Listener untuk tombol-tombol utama
     listButton.addEventListener('click', () => toggleModal(true));
     closeModalBtn.addEventListener('click', () => toggleModal(false));
     listModalOverlay.addEventListener('click', (e) => { if (e.target === listModalOverlay) toggleModal(false); });
-    document.querySelectorAll('.add-to-cart-btn').forEach(button => { button.addEventListener('click', (e) => { e.preventDefault(); addItemToList(e.currentTarget); }); });
-    
+
+    // Listener untuk semua tombol "+ Tambah" pada kartu barang
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            addItemToList(e.currentTarget);
+        });
+    });
+
+    // Listener untuk interaksi di dalam modal (ubah jumlah, hapus item)
     listItemsContainer.addEventListener('click', e => {
         const button = e.target.closest('button');
         if (!button) return;
@@ -363,39 +445,33 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Listener untuk input jumlah manual di dalam modal
     listItemsContainer.addEventListener('change', e => {
         if (e.target.classList.contains('quantity-input')) {
             const id = e.target.dataset.id;
             if (!loanList[id]) return;
-
             let newQuantity = parseFloat(e.target.value);
-            
-            if (isNaN(newQuantity) || newQuantity < 0) {
-                newQuantity = 1;
-            }
+            if (isNaN(newQuantity) || newQuantity < 0) newQuantity = 1;
             if (newQuantity > loanList[id].stok) {
                 newQuantity = loanList[id].stok;
                 Swal.fire({ toast: true, position: 'top-end', icon: 'error', title: 'Melebihi stok!', showConfirmButton: false, timer: 1500 });
             }
-            
             if (newQuantity === 0) {
                 removeItemFromList(id);
                 return;
             }
-            
             loanList[id].quantity = newQuantity;
             e.target.value = newQuantity;
         }
     });
 
+    // Listener untuk pengajuan form peminjaman
     mainForm.addEventListener('submit', (e) => {
         e.preventDefault();
-
         const noHpInput = document.getElementById('no_hp_input');
         const hiddenNoHp = document.getElementById('no_hp');
         const sanitizedNumber = noHpInput.value.replace(/[^0-9]/g, '');
         hiddenNoHp.value = '+62' + sanitizedNumber;
-
         const nama = document.getElementById('nama_peminjam').value;
         const nim = document.getElementById('nim_peminjam').value;
 
@@ -403,7 +479,7 @@ document.addEventListener('DOMContentLoaded', function() {
             Swal.fire('Data Tidak Lengkap', 'Mohon isi semua data diri peminjam.', 'warning');
             return;
         }
-        
+
         hiddenInputsContainer.innerHTML = '';
         Object.values(loanList).forEach((item, index) => {
             const [type, id] = item.id.split('-');
@@ -423,153 +499,114 @@ document.addEventListener('DOMContentLoaded', function() {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Ya, Lanjutkan!',
             cancelButtonText: 'Batal'
-        }).then((result) => { 
+        }).then((result) => {
             if (result.isConfirmed) {
-                mainForm.submit(); 
+                mainForm.submit();
             }
         });
     });
-    
-    if ("{{ $errors->any() }}") {
-        toggleModal(true);
-    }
-    
-    const searchInput = document.getElementById('searchInput');
-    const allSections = document.querySelectorAll('.catalog-section');
-    const noResultsMessage = document.getElementById('no-results-message');
-    const INITIAL_ITEMS_TO_SHOW = 8;
 
+    // Logika untuk menampilkan/menyembunyikan tombol "Lihat Semua"
     allSections.forEach(section => {
-        const grid = section.querySelector('.grid');
-        const items = Array.from(grid.querySelectorAll('.item-card'));
+        const items = Array.from(section.querySelectorAll('.grid .item-card'));
         const showMoreContainer = section.querySelector('.show-more-container');
-
         if (!showMoreContainer) return;
-
         const showMoreBtn = showMoreContainer.querySelector('.show-more-btn');
         
-        const expand = () => {
-            items.forEach(item => item.style.display = 'flex');
-            showMoreContainer.style.display = 'none';
-            section.dataset.expanded = 'true';
+        const updateVisibility = (isExpanded) => {
+            items.forEach((item, index) => {
+                item.style.display = (isExpanded || index < INITIAL_ITEMS_TO_SHOW) ? 'flex' : 'none';
+            });
+            showMoreContainer.style.display = (isExpanded || items.length <= INITIAL_ITEMS_TO_SHOW) ? 'none' : 'block';
+            section.dataset.expanded = isExpanded;
         };
         
-        const collapse = () => {
-            items.forEach((item, index) => {
-                item.style.display = (index < INITIAL_ITEMS_TO_SHOW) ? 'flex' : 'none';
-            });
-            showMoreContainer.style.display = 'block';
-            section.dataset.expanded = 'false';
-        };
-
-        if (items.length > INITIAL_ITEMS_TO_SHOW) {
-            collapse();
-            showMoreBtn.addEventListener('click', expand);
-        }
+        updateVisibility(false);
+        showMoreBtn.addEventListener('click', () => updateVisibility(true));
     });
 
+    // Logika Pencarian
     searchInput.addEventListener('input', function() {
         const searchTerm = this.value.toLowerCase().trim();
         let totalVisibleItems = 0;
 
-        if (searchTerm !== '') {
-            document.querySelectorAll('.show-more-container').forEach(c => c.style.display = 'none');
-
-            allSections.forEach(section => {
-                let visibleCardsInSection = 0;
-                const cardsInSection = section.querySelectorAll('.item-card');
+        allSections.forEach(section => {
+            let visibleCardsInSection = 0;
+            const cards = section.querySelectorAll('.item-card');
+            
+            cards.forEach(card => {
+                const itemName = card.querySelector('.item-name').textContent.toLowerCase();
+                const formulaElement = card.querySelector('.formula-display');
+                const itemFormula = formulaElement ? formulaElement.textContent.toLowerCase().trim() : '';
+                const isMatch = itemName.includes(searchTerm) || (itemFormula && itemFormula.includes(searchTerm));
                 
-                cardsInSection.forEach(card => {
-                    const itemName = card.querySelector('.item-name').textContent.toLowerCase();
-                    const formulaElement = card.querySelector('.formula-display');
-                    const itemFormula = formulaElement ? formulaElement.textContent.toLowerCase().trim() : '';
-                    const isMatch = itemName.includes(searchTerm) || (itemFormula && itemFormula.includes(searchTerm));
-                    
-                    card.style.display = isMatch ? 'flex' : 'none';
-                    
-                    if (isMatch) {
-                        visibleCardsInSection++;
-                    }
-                });
-
-                if (visibleCardsInSection > 0) {
-                    section.style.display = 'block';
-                    totalVisibleItems += visibleCardsInSection;
-                } else {
-                    section.style.display = 'none';
-                }
+                card.style.display = isMatch ? 'flex' : 'none';
+                if (isMatch) visibleCardsInSection++;
             });
 
-            noResultsMessage.style.display = (totalVisibleItems === 0) ? 'block' : 'none';
+            section.style.display = visibleCardsInSection > 0 ? 'block' : 'none';
+            totalVisibleItems += visibleCardsInSection;
+            
+            // Sembunyikan tombol "lihat semua" saat mencari
+            const showMoreContainer = section.querySelector('.show-more-container');
+            if (showMoreContainer) showMoreContainer.style.display = 'none';
+        });
 
-        } else {
-            noResultsMessage.style.display = 'none';
+        noResultsMessage.style.display = totalVisibleItems === 0 ? 'block' : 'none';
 
+        // Reset tampilan jika searchbox kosong
+        if (searchTerm === '') {
             allSections.forEach(section => {
                 section.style.display = 'block';
-                const grid = section.querySelector('.grid');
-                const items = Array.from(grid.querySelectorAll('.item-card'));
+                const items = Array.from(section.querySelectorAll('.grid .item-card'));
                 const showMoreContainer = section.querySelector('.show-more-container');
+                const isExpanded = section.dataset.expanded === 'true';
 
-                if (items.length > INITIAL_ITEMS_TO_SHOW) {
-                    if (section.dataset.expanded === 'true') {
-                        items.forEach(item => item.style.display = 'flex');
-                        if (showMoreContainer) showMoreContainer.style.display = 'none';
-                    } else {
-                        items.forEach((item, index) => {
-                            item.style.display = (index < INITIAL_ITEMS_TO_SHOW) ? 'flex' : 'none';
-                        });
-                        if (showMoreContainer) showMoreContainer.style.display = 'block';
-                    }
-                } else {
-                    items.forEach(item => item.style.display = 'flex');
+                items.forEach((item, index) => {
+                    item.style.display = (isExpanded || index < INITIAL_ITEMS_TO_SHOW) ? 'flex' : 'none';
+                });
+                if (showMoreContainer && items.length > INITIAL_ITEMS_TO_SHOW && !isExpanded) {
+                    showMoreContainer.style.display = 'block';
                 }
             });
         }
     });
- 
-    const searchContainer = document.getElementById('search-container');
-    if(searchContainer) {
-        const stickyThreshold = searchContainer.offsetTop; 
+
+    // Logika untuk membuat search bar menjadi sticky
+    if (searchContainer) {
+        const stickyThreshold = searchContainer.offsetTop;
         window.addEventListener('scroll', () => {
-            if (window.scrollY > stickyThreshold) {
-                searchContainer.classList.add('is-sticky');
-            } else {
-                searchContainer.classList.remove('is-sticky');
-            }
+            searchContainer.classList.toggle('is-sticky', window.scrollY > stickyThreshold);
         });
     }
-
-    renderList();
-
+    
+    // Inisialisasi awal
+    renderList(); // Render daftar pinjaman jika ada (misal: setelah validasi error)
+    
+    // Jika ada error validasi dari Laravel, buka modal secara otomatis
+    if ("{{ $errors->any() }}") {
+        toggleModal(true);
+    }
+    
+    // Notifikasi dari session (setelah berhasil login, submit, dll)
     @if (session('success'))
         Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: 'success',
-            title: '{{ session('success') }}',
-            showConfirmButton: false,
-            timer: 3500,
-            timerProgressBar: true,
+            toast: true, position: 'top-end', icon: 'success', title: '{{ session('success') }}',
+            showConfirmButton: false, timer: 3500, timerProgressBar: true,
             didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
             }
         });
     @endif
 
     @if ($errors->any())
         Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: 'error',
-            title: '{{ $errors->first() }}',
-            showConfirmButton: false,
-            timer: 5000,
-            timerProgressBar: true,
+            toast: true, position: 'top-end', icon: 'error', title: '{{ $errors->first() }}',
+            showConfirmButton: false, timer: 5000, timerProgressBar: true,
             didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
             }
         });
     @endif

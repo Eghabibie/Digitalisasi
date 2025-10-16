@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
+
+class GoogleAuthController extends Controller
+{
+    public function redirect()
+    {
+        // Arahkan pengguna ke halaman otentikasi Google
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function callback()
+    {
+        try {
+            // Ambil data pengguna dari Google
+            $googleUser = Socialite::driver('google')->user();
+
+            // Cari atau buat pengguna baru di database kita
+            $user = User::updateOrCreate(
+                ['google_id' => $googleUser->getId()],
+                [
+                    'name' => $googleUser->getName(),
+                    'email' => $googleUser->getEmail(),
+                    'avatar'  => $googleUser->getAvatar(),
+                ]
+            );
+
+            // Login-kan pengguna
+            Auth::login($user);
+
+            // Redirect ke halaman katalog setelah berhasil login
+            return redirect()->route('pinjam.create'); // Ganti 'pinjam.index' dengan nama rute halaman katalog Anda
+
+        } catch (\Exception $e) {
+            // Jika terjadi error, kembalikan ke halaman login dengan pesan error
+            return redirect('/')->with('error', 'Terjadi kesalahan saat login dengan Google.');
+        }
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('pinjam.create'); // Ganti sesuai rute halaman utama
+    }
+}
