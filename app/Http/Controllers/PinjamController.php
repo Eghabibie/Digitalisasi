@@ -49,8 +49,6 @@ class PinjamController extends Controller
         })
             ->whereNotIn('status', ['Dikembalikan', 'Ditolak'])
             ->exists();
-
-        // Jika ditemukan, hentikan proses
         if ($peminjamanAktif) {
             return redirect()->back()
                 ->withErrors(['peminjaman_aktif' => 'Anda (atau data identik) terdeteksi masih memiliki peminjaman yang belum selesai.'])

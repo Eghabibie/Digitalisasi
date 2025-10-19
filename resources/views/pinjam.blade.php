@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Peminjaman Barang Laboratorium</title>
-    {{-- favicon --}}
     <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
-    {{-- akhir favicon --}}
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -42,39 +40,33 @@
             border-bottom: 1px solid var(--border-color);
         }
     </style>
-</head>
+    </head>
 <body class="bg-[var(--bg-primary)] text-[var(--text-primary)]">
 
 <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-7xl">
     
+    <div class="absolute top-4 right-4 sm:top-6 sm:right-6 md:top-8 md:right-8 z-50">
+        @auth
+        <div class="flex items-center gap-3 bg-white pl-2 pr-3 py-2 rounded-full shadow-md">
+            <img src="{{ Auth::user()->avatar }}" 
+                 alt="Foto Profil {{ Auth::user()->name }}" 
+                 class="w-8 h-8 rounded-full border-2 border-gray-200">
+            
+            <span class="font-semibold text-sm hidden sm:inline">{{ Auth::user()->name }}</span>
+            
+            <form action="{{ route('logout') }}" method="POST" class="flex items-center">
+                @csrf
+                <button type="submit" class="text-gray-400 hover:text-red-600 transition-colors" title="Logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </form>
+        </div>
+        @endauth
+    </div>
     <header class="mb-8 text-center pt-4 md:pt-8">
         <h1 class="text-3xl sm:text-4xl font-bold text-[var(--text-primary)]">Katalog Barang Laboratorium</h1>
         <p class="text-base sm:text-lg text-[var(--text-secondary)] mt-2">Pilih barang yang ingin Anda pinjam.</p>
-        {{-- Sisipkan ini di dalam <div class="container ..."> sebelum <header> --}}
-<div class="absolute top-4 right-4 sm:top-6 sm:right-6 md:top-8 md:right-8 z-50">
-    {{-- ... DENGAN BLOK YANG LEBIH LENGKAP INI --}}
-@auth
-    <div class="flex items-center gap-3 bg-white pl-2 pr-3 py-2 rounded-full shadow-md">
-        {{-- Menampilkan foto profil dari Google --}}
-        <img src="{{ Auth::user()->avatar }}" 
-             alt="Foto Profil {{ Auth::user()->name }}" 
-             class="w-8 h-8 rounded-full border-2 border-gray-200">
-        
-        {{-- Menampilkan nama pengguna --}}
-        <span class="font-semibold text-sm hidden sm:inline">{{ Auth::user()->name }}</span>
-        
-        {{-- Form untuk logout --}}
-        <form action="{{ route('logout') }}" method="POST" class="flex items-center">
-            @csrf
-            <button type="submit" class="text-gray-400 hover:text-red-600 transition-colors" title="Logout">
-                <i class="fa-solid fa-right-from-bracket"></i>
-            </button>
-        </form>
-    </div>
-@endauth
-</div>
     </header>
-
     <div id="search-container" class="search-bar-container sticky top-0 z-30 mb-8 transition-all duration-300 ease-in-out">
         <div class="search-bar-inner py-3 md:py-4 transition-all duration-300 ease-in-out">
             <div class="relative max-w-2xl mx-auto">
@@ -86,9 +78,6 @@
             </div>
         </div>
     </div>
-
-    {{-- Notifikasi statis dihapus dari sini, akan digantikan oleh SweetAlert2 di script --}}
-
     <div id="items-container">
         <section id="alat-lab" class="catalog-section">
             <h2 class="text-2xl font-bold text-[var(--text-primary)] border-b-2 border-[var(--border-color)] pb-3 mb-6">Alat Laboratorium</h2>
@@ -109,10 +98,8 @@
                     </div>
                     <div class="p-3 flex flex-col flex-grow">
                         <h3 class="font-semibold text-sm sm:text-base truncate item-name">{{ $item->nama }}</h3>
-                        {{-- START: Perubahan Layout Stok & Kondisi --}}
                         <p class="text-xs text-[var(--text-secondary)]">Stok: <span class="font-medium text-gray-800">{{ $item->stok }}</span> unit</p>
                         <p class="text-xs text-[var(--text-secondary)] mb-2">Kondisi: <span class="font-medium text-gray-800">{{ $item->kondisi ?? 'N/A' }}</span></p>
-                        {{-- END: Perubahan Layout Stok & Kondisi --}}
                         <button class="add-to-cart-btn mt-auto w-full bg-[var(--accent-primary)] text-white py-2 px-3 rounded-md font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" data-id="Alat-{{ $item->id }}" data-nama="{{ $item->nama }}" data-stok="{{ $item->stok }}" data-unit="unit" data-tipe="Alat" @if($item->stok <= 0) disabled @endif>
                             <i class="fa-solid fa-plus mr-1"></i> Tambah
                         </button>
@@ -127,7 +114,6 @@
                 </button>
             </div>
         </section>
-
         <section id="bahan-padat" class="catalog-section mt-10 md:mt-12">
             <h2 class="text-2xl font-bold text-[var(--text-primary)] border-b-2 border-[var(--border-color)] pb-3 mb-6">Bahan Padat</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
@@ -165,7 +151,6 @@
                 </button>
             </div>
         </section>
-
         <section id="bahan-cair" class="catalog-section mt-10 md:mt-12">
             <h2 class="text-2xl font-bold text-[var(--text-primary)] border-b-2 border-[var(--border-color)] pb-3 mb-6">Bahan Cair</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
@@ -178,7 +163,7 @@
                       @endif
                       <div class="h-36 md:h-48 p-2 md:p-4">
                           <div class="formula-display text-2xl md:text-4xl">
-                               {!! !empty($item->rumus_kimia) ? $item->rumus_kimia : '<i class="fa-solid fa-vial text-4xl text-gray-400"></i>' !!}
+                              {!! !empty($item->rumus_kimia) ? $item->rumus_kimia : '<i class="fa-solid fa-vial text-4xl text-gray-400"></i>' !!}
                           </div>
                       </div>
                       <div class="p-3 flex flex-col flex-grow">
@@ -199,20 +184,18 @@
                 </button>
             </div>
         </section>
-        
         <div id="no-results-message" class="text-center py-16 hidden">
             <i class="fa-solid fa-box-open fa-4x text-gray-300"></i>
             <h3 class="mt-4 text-xl font-semibold text-gray-800">Tidak Ada Hasil</h3>
             <p class="mt-2 text-gray-500">Kami tidak dapat menemukan barang yang cocok.</p>
         </div>
-    </div>
+        </div>
 </div>
 
 <button id="cart-button" class="fixed bottom-5 right-5 bg-[var(--accent-primary)] text-white w-14 h-14 md:w-16 md:h-16 rounded-full shadow-lg flex items-center justify-center text-2xl transform transition-transform hover:scale-110">
     <i class="fa-solid fa-clipboard-list"></i>
     <span id="cart-item-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center border-2 border-white">0</span>
 </button>
-
 <div id="cart-modal-overlay" class="fixed inset-0 bg-black bg-opacity-60 z-40 hidden">
     <div id="cart-modal" class="modal-enter fixed inset-0 flex items-center justify-center p-4">
         <form id="loan-form" action="{{ route('pinjam.store') }}" method="POST" class="bg-[var(--bg-secondary)] rounded-xl shadow-2xl w-full sm:max-w-lg max-h-[90vh] flex flex-col">
@@ -268,12 +251,8 @@
         </form>
     </div>
 </div>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // =================================================================
-    // 1. DEKLARASI VARIABEL
-    // =================================================================
     const listButton = document.getElementById('cart-button');
     const listModalOverlay = document.getElementById('cart-modal-overlay');
     const listModal = document.getElementById('cart-modal');
@@ -292,17 +271,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let loanList = {};
     const INITIAL_ITEMS_TO_SHOW = 8;
-
-    // Variabel kunci untuk mengecek status login dari backend (Laravel)
     const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
-
-    // =================================================================
-    // 2. FUNGSI-FUNGSI UTAMA
-    // =================================================================
-
-    /**
-     * Menampilkan atau menyembunyikan modal keranjang peminjaman.
-     */
     const toggleModal = (show) => {
         if (show) {
             listModalOverlay.classList.remove('hidden');
@@ -319,9 +288,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    /**
-     * Merender ulang tampilan daftar barang di dalam modal.
-     */
     const renderList = () => {
         listItemsContainer.innerHTML = '';
         const items = Object.values(loanList);
@@ -359,15 +325,12 @@ document.addEventListener('DOMContentLoaded', function() {
         listItemCount.style.display = items.length > 0 ? 'flex' : 'none';
     };
 
-    /**
-     * Menambahkan item ke daftar pinjaman dengan pengecekan status login.
-     */
     const addItemToList = (button) => {
         if (!isLoggedIn) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Login Diperlukan',
-                text: 'Anda harus login terlebih dahulu untuk dapat meminjam barang.',
+                text: 'Anda harus login terlebih dahulu menggunakan email Uin AR-raniry untuk dapat meminjam barang.',
                 confirmButtonText: 'Login dengan Google',
                 confirmButtonColor: '#4F46E5',
             }).then((result) => {
@@ -375,7 +338,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     window.location.href = '{{ route("google.redirect") }}';
                 }
             });
-            return; // Hentikan fungsi jika belum login
+            return;
         }
 
         const data = button.dataset;
@@ -388,9 +351,6 @@ document.addEventListener('DOMContentLoaded', function() {
         Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Ditambahkan ke daftar', showConfirmButton: false, timer: 1500 });
     };
 
-    /**
-     * Mengubah jumlah item di keranjang.
-     */
     const changeItemQuantity = (id, change) => {
         if (!loanList[id]) return;
         const item = loanList[id];
@@ -408,24 +368,14 @@ document.addEventListener('DOMContentLoaded', function() {
         renderList();
     };
 
-    /**
-     * Menghapus item dari keranjang.
-     */
     const removeItemFromList = (id) => {
         delete loanList[id];
         renderList();
     };
-
-    // =================================================================
-    // 3. EVENT LISTENERS & LOGIKA HALAMAN
-    // =================================================================
-
-    // Listener untuk tombol-tombol utama
     listButton.addEventListener('click', () => toggleModal(true));
     closeModalBtn.addEventListener('click', () => toggleModal(false));
     listModalOverlay.addEventListener('click', (e) => { if (e.target === listModalOverlay) toggleModal(false); });
 
-    // Listener untuk semua tombol "+ Tambah" pada kartu barang
     document.querySelectorAll('.add-to-cart-btn').forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
@@ -433,7 +383,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Listener untuk interaksi di dalam modal (ubah jumlah, hapus item)
     listItemsContainer.addEventListener('click', e => {
         const button = e.target.closest('button');
         if (!button) return;
@@ -445,7 +394,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Listener untuk input jumlah manual di dalam modal
     listItemsContainer.addEventListener('change', e => {
         if (e.target.classList.contains('quantity-input')) {
             const id = e.target.dataset.id;
@@ -465,7 +413,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Listener untuk pengajuan form peminjaman
     mainForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const noHpInput = document.getElementById('no_hp_input');
@@ -506,7 +453,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Logika untuk menampilkan/menyembunyikan tombol "Lihat Semua"
     allSections.forEach(section => {
         const items = Array.from(section.querySelectorAll('.grid .item-card'));
         const showMoreContainer = section.querySelector('.show-more-container');
@@ -525,7 +471,6 @@ document.addEventListener('DOMContentLoaded', function() {
         showMoreBtn.addEventListener('click', () => updateVisibility(true));
     });
 
-    // Logika Pencarian
     searchInput.addEventListener('input', function() {
         const searchTerm = this.value.toLowerCase().trim();
         let totalVisibleItems = 0;
@@ -547,14 +492,12 @@ document.addEventListener('DOMContentLoaded', function() {
             section.style.display = visibleCardsInSection > 0 ? 'block' : 'none';
             totalVisibleItems += visibleCardsInSection;
             
-            // Sembunyikan tombol "lihat semua" saat mencari
             const showMoreContainer = section.querySelector('.show-more-container');
             if (showMoreContainer) showMoreContainer.style.display = 'none';
         });
 
         noResultsMessage.style.display = totalVisibleItems === 0 ? 'block' : 'none';
 
-        // Reset tampilan jika searchbox kosong
         if (searchTerm === '') {
             allSections.forEach(section => {
                 section.style.display = 'block';
@@ -572,7 +515,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Logika untuk membuat search bar menjadi sticky
     if (searchContainer) {
         const stickyThreshold = searchContainer.offsetTop;
         window.addEventListener('scroll', () => {
@@ -580,15 +522,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Inisialisasi awal
-    renderList(); // Render daftar pinjaman jika ada (misal: setelah validasi error)
-    
-    // Jika ada error validasi dari Laravel, buka modal secara otomatis
+    renderList();
     if ("{{ $errors->any() }}") {
         toggleModal(true);
     }
     
-    // Notifikasi dari session (setelah berhasil login, submit, dll)
     @if (session('success'))
         Swal.fire({
             toast: true, position: 'top-end', icon: 'success', title: '{{ session('success') }}',
@@ -610,8 +548,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     @endif
-});
+    });
 </script>
+
 <footer class="bg-[var(--accent-primary)] mt-16 md:mt-24">
     <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -623,17 +562,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p class="mt-4 text-indigo-100 text-base pr-4">
                     Pusat layanan praktikum, penelitian, dan pengembangan ilmu pengetahuan di lingkungan Fakultas Sains & Teknologi.
                 </p>
-                <div class="mt-6 flex space-x-4">
-                    <a href="#" target="_blank" class="text-indigo-200 hover:text-white transition-colors" aria-label="Instagram">
-                        <i class="fa-brands fa-instagram fa-lg"></i>
-                    </a>
-                    <a href="#" target="_blank" class="text-indigo-200 hover:text-white transition-colors" aria-label="Facebook">
-                        <i class="fa-brands fa-facebook fa-lg"></i>
-                    </a>
-                    <a href="#" target="_blank" class="text-indigo-200 hover:text-white transition-colors" aria-label="YouTube">
-                        <i class="fa-brands fa-youtube fa-lg"></i>
-                    </a>
-                </div>
+
             </div>
 
             <div>
@@ -641,8 +570,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 <ul class="mt-4 space-y-3">
                     <li><a href="https://ar-raniry.ac.id/" class="text-indigo-100 hover:text-white transition-colors">Website Utama UIN</a></li>
                     <li><a href="https://fst.uin.ar-raniry.ac.id/" class="text-indigo-100 hover:text-white transition-colors">Fakultas Sains & Teknologi</a></li>
-                    <li><a href="#" class="text-indigo-100 hover:text-white transition-colors">Repositori Digital</a></li>
-                    <li><a href="#" class="text-indigo-100 hover:text-white transition-colors">Prosedur Peminjaman</a></li>
                 </ul>
             </div>
 
@@ -659,7 +586,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </li>
                     <li class="flex items-center">
                         <i class="fa-solid fa-phone text-indigo-200 mr-3 flex-shrink-0"></i>
-                        <a href="tel:+621234567890" class="text-indigo-100 hover:text-white transition-colors">(+62) 123-456-7890</a>
+                        <a class="text-indigo-100 hover:text-white transition-colors">(+62) 123-456-7890</a>
                     </li>
                 </ul>
             </div>
@@ -669,7 +596,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="mt-8 py-6 border-t border-indigo-500">
             <div class="flex flex-col sm:flex-row justify-between items-center text-sm text-indigo-100">
                 <p class="text-center sm:text-left mb-2 sm:mb-0">
-                    &copy; 2025 <a href="https://portofolio-app-pied.vercel.app/" target="_blank" rel="noopener noreferrer" class="font-medium hover:text-white transition-colors"> </> Dev Teknologi Informasi</a>
+                    &copy; 2025 <a href="https://portofolio-app-pied.vercel.app/" target="_blank" rel="noopener noreferrer" class="font-medium hover:text-white transition-colors"> <\> Dev Teknologi Informasi</a>
                 </p>
             </div>
         </div>

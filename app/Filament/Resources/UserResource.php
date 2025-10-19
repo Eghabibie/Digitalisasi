@@ -16,7 +16,7 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
     protected static ?string $navigationLabel = 'Users';
-        protected static ?string $navigationGroup = 'Manajemen User';
+    protected static ?string $navigationGroup = 'Manajemen User';
     protected static ?string $pluralModelLabel = 'Users';
     protected static ?string $modelLabel = 'User';
 
@@ -35,20 +35,17 @@ class UserResource extends Resource
 
                 Forms\Components\TextInput::make('password')
                     ->password()
-                    ->revealable() // [1] DITAMBAHKAN: Tombol show/hide password
-                    ->required(fn (string $context): bool => $context === 'create')
-                    ->dehydrateStateUsing(fn ($state) => filled($state) ? bcrypt($state) : null)
-                    // ->dehydrated(fn ($state) => filled($state)) // [3] DIHAPUS: Ini sudah dicakup oleh dehydrateStateUsing
+                    ->revealable()
+                    ->required(fn(string $context): bool => $context === 'create')
+                    ->dehydrateStateUsing(fn($state) => filled($state) ? bcrypt($state) : null)
                     ->maxLength(255),
-                
-                // [2] DITAMBAHKAN: Field konfirmasi password untuk pengalaman pengguna yang lebih baik
                 Forms\Components\TextInput::make('password_confirmation')
                     ->password()
                     ->revealable()
                     ->label('Konfirmasi Password')
-                    ->required(fn (string $context): bool => $context === 'create')
-                    ->dehydrated(false) // Pastikan field ini tidak disimpan ke database
-                    ->same('password'), // Validasi: harus sama dengan field password
+                    ->required(fn(string $context): bool => $context === 'create')
+                    ->dehydrated(false)
+                    ->same('password'),
             ]);
     }
 
@@ -63,9 +60,7 @@ class UserResource extends Resource
                     ->dateTime('d M Y H:i')
                     ->sortable(),
             ])
-            ->filters([
-                // bisa tambahkan filter kalau perlu
-            ])
+            ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
@@ -79,9 +74,7 @@ class UserResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            // kalau ada relasi, tambahkan di sini
-        ];
+        return [];
     }
 
     public static function getPages(): array

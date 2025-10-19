@@ -6,7 +6,7 @@ use App\Filament\Resources\PeminjamanResource\Pages;
 use App\Models\Peminjaman;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables; // iini juga 
+use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Actions\Action;

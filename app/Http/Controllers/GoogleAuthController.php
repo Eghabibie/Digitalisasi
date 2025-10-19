@@ -31,14 +31,14 @@ class GoogleAuthController extends Controller
                 ]
             );
 
-            // Login-kan pengguna
+
             Auth::login($user);
 
-            // Redirect ke halaman katalog setelah berhasil login
-            return redirect()->route('pinjam.create'); // Ganti 'pinjam.index' dengan nama rute halaman katalog Anda
+
+            return redirect()->route('pinjam.create');
 
         } catch (\Exception $e) {
-            // Jika terjadi error, kembalikan ke halaman login dengan pesan error
+
             return redirect('/')->with('error', 'Terjadi kesalahan saat login dengan Google.');
         }
     }
@@ -48,6 +48,6 @@ class GoogleAuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('pinjam.create'); // Ganti sesuai rute halaman utama
+        return redirect()->route('pinjam.create');
     }
 }
