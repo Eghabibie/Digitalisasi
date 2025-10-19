@@ -136,6 +136,7 @@
                     <div class="p-3 flex flex-col flex-grow">
                         <h3 class="font-semibold text-sm sm:text-base truncate item-name">{{ $item->nama }}</h3>
                         <p class="text-xs text-[var(--text-secondary)]">Sisa: <span class="font-medium text-gray-800">{{ $item->sisa_bahan }}</span> {{ $item->unit }}</p>
+                        <p class="text-xs text-[var(--text-secondary)]">Letak: <span class="font-medium text-gray-800">{{ $item->letak }}</span></p>
                         <p class="text-xs text-[var(--text-secondary)] mb-2">Kedaluwarsa: <span class="font-medium text-gray-800">{{ $item->expired ? \Carbon\Carbon::parse($item->expired)->format('d M Y') : 'N/A' }}</span></p>
                         <button class="add-to-cart-btn mt-auto w-full bg-[var(--accent-primary)] text-white py-2 px-3 rounded-md font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" data-id="BahanPadat-{{ $item->id }}" data-nama="{{ $item->nama }}" data-stok="{{ $item->sisa_bahan }}" data-unit="{{ $item->unit }}" data-tipe="BahanPadat" @if($item->sisa_bahan <= 0) disabled @endif>
                             <i class="fa-solid fa-plus mr-1"></i> Tambah
@@ -169,6 +170,7 @@
                       <div class="p-3 flex flex-col flex-grow">
                           <h3 class="font-semibold text-sm sm:text-base truncate item-name">{{ $item->nama }}</h3>
                           <p class="text-xs text-[var(--text-secondary)]">Sisa: <span class="font-medium text-gray-800">{{ $item->sisa_bahan }}</span> {{ $item->unit }}</p>
+                          <p class="text-xs text-[var(--text-secondary)]">Letak: <span class="font-medium text-gray-800">{{ $item->letak }}</span></p>
                           <p class="text-xs text-[var(--text-secondary)] mb-2">Kedaluwarsa: <span class="font-medium text-gray-800">{{ $item->expired ? \Carbon\Carbon::parse($item->expired)->format('d M Y') : 'N/A' }}</span></p>
                           <button class="add-to-cart-btn mt-auto w-full bg-[var(--accent-primary)] text-white py-2 px-3 rounded-md font-semibold text-sm hover:bg-[var(--accent-hover)] transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed" data-id="BahanCairanLama-{{ $item->id }}" data-nama="{{ $item->nama }}" data-stok="{{ $item->sisa_bahan }}" data-unit="{{ $item->unit }}" data-tipe="BahanCairanLama" @if($item->sisa_bahan <= 0) disabled @endif>
                               <i class="fa-solid fa-plus mr-1"></i> Tambah
@@ -596,7 +598,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="mt-8 py-6 border-t border-indigo-500">
             <div class="flex flex-col sm:flex-row justify-between items-center text-sm text-indigo-100">
                 <p class="text-center sm:text-left mb-2 sm:mb-0">
-                    &copy; 2025 <a href="https://portofolio-app-pied.vercel.app/" target="_blank" rel="noopener noreferrer" class="font-medium hover:text-white transition-colors"> <\> Dev Teknologi Informasi</a>
+                    &copy; 2025 <a href="https://portofolio-app-pied.vercel.app/" target="_blank" rel="noopener noreferrer" class="font-medium text-green-400 hover:text-yellow-300 focus:text-yellow-300 transition-colors"> <\> Dev Teknologi Informasi</a>
                 </p>
             </div>
         </div>
