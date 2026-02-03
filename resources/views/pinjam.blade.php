@@ -594,14 +594,6 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
 
         </div>
-
-        <div class="mt-8 py-6 border-t border-indigo-500">
-            <div class="flex flex-col sm:flex-row justify-between items-center text-sm text-indigo-100">
-                <p class="text-center sm:text-left mb-2 sm:mb-0">
-                    &copy; 2025 <a href="https://portofolio-app-pied.vercel.app/" target="_blank" rel="noopener noreferrer" class="font-medium text-green-400 hover:text-yellow-300 focus:text-yellow-300 transition-colors"> <\> Dev Teknologi Informasi</a>
-                </p>
-            </div>
-        </div>
     </div>
 </footer>
 </body>
